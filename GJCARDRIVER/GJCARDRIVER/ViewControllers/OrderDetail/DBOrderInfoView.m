@@ -349,11 +349,13 @@
     
     
     //备注
-    UILabel * carCostTotal1 = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth / 3 , carCostLabel1.frame.origin.y, ScreenWidth / 3 - 20, carCostLabel.frame.size.height)];
+    UILabel * carCostTotal1 = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth / 3 , carCostLabel1.frame.origin.y, ScreenWidth * 2 / 3 - 20, carCostLabel.frame.size.height)];
     
     carCostTotal1.textAlignment = 0;
     carCostTotal1.text = [self.orderDIc objectForKey:@"tripRemark"];
     carCostTotal1.font = [ UIFont systemFontOfSize:12];
+    carCostTotal1.adjustsFontSizeToFitWidth = YES ;
+    carCostTotal1.numberOfLines = 0 ;
     
     carCostTotal1.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
     
@@ -365,8 +367,6 @@
     
     [_detailScrollView addSubview:lineView21];
 
-    
-    
     
     
     
@@ -428,14 +428,12 @@
     carCostLabel3.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
     
     [_detailScrollView addSubview:carCostLabel3];
-    
-    
     NSDictionary * transferPointShow =  [self.orderDIc objectForKey:@"transferPointShow"];
-    
     
     
     //车辆总费用
     UILabel * carCostTotal3 = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth  / 3 , carCostLabel3.frame.origin.y, ScreenWidth  * 2/ 3 - 20, carCostLabel.frame.size.height)];
+    
     
     carCostTotal3.textAlignment = 0;
     carCostTotal3.text = [transferPointShow objectForKey:@"pointName"];
@@ -444,14 +442,11 @@
     carCostTotal3.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
     
     [_detailScrollView addSubview:carCostTotal3];
-    
-    
     UIView * lineView23 = [[UIView alloc]initWithFrame:CGRectMake( 0 ,CGRectGetMaxY(carCostLabel3.frame) , ScreenWidth , 0.5)];
     lineView23.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     
     [_detailScrollView addSubview:lineView23];
 
-    
     //航空公司
     UILabel * carCostLabel4 = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(lineView23.frame), ScreenWidth / 3 - 40 , 35)];
     carCostLabel4.text = @"航空公司";
@@ -460,8 +455,7 @@
     carCostLabel4.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
     [_detailScrollView addSubview:carCostLabel4];
     
-    
-    
+
     //车辆总费用
     UILabel * carCostTotal4 = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth  / 3 , carCostLabel4.frame.origin.y, ScreenWidth  * 2/ 3 - 20, carCostLabel.frame.size.height)];
     
@@ -595,7 +589,7 @@
             
         }
         else{
-            carCostTotal8.text = [NSString stringWithFormat:@"%@KM",[self.orderDIc objectForKey:@"tripDistance"]];
+            carCostTotal8.text = [NSString stringWithFormat:@"%@公里",[self.orderDIc objectForKey:@"tripDistance"]];
             
         }
 
@@ -632,6 +626,8 @@
     carCostTotal9.textAlignment = 0;
     carCostTotal9.text = [self.orderDIc objectForKey:@"airDescribe"];
     carCostTotal9.font = [ UIFont systemFontOfSize:12];
+    carCostTotal9.adjustsFontSizeToFitWidth = YES ;
+    carCostTotal9.numberOfLines = 0 ;
     
     carCostTotal9.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
     
@@ -680,12 +676,12 @@
                 carCostTotal6.text = @"";
             }
             else{
-                carCostTotal6.text = [NSString stringWithFormat:@"%@KM",[self.orderDIc objectForKey:@"outsideDistance"]];
+                carCostTotal6.text = [NSString stringWithFormat:@"%@公里",[self.orderDIc objectForKey:@"outsideDistance"]];
             }
             
         }
         else{
-            carCostTotal6.text = @"0KM";
+            carCostTotal6.text = @"0公里";
         }
         
         carCostLabel7.hidden = YES ;

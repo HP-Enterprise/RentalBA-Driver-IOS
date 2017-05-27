@@ -370,36 +370,29 @@
     //送车回门店
     if ([self.dataModel.taskType isEqualToString:@"2"]) {
         
-        //下车
-        NSDate * downdate =  [NSDate dateWithTimeIntervalSince1970:[[self.model objectForKey:@"takeCarActualDate"]integerValue]/1000];
-        NSString *  downdateString = [formatter stringFromDate:downdate];
+        NSString * startdate = [DBcommonUtils timeWithTimeIntervalString:self.dataModel.realStartTime];
+        NSString * endData = [DBcommonUtils timeWithTimeIntervalString:self.dataModel.realEndTime];
+        DBLog(@"%@",startdate);
+        DBLog(@"%@",endData);
+        
+        [_startDate setAttrubutwithText:[startdate substringWithRange:NSMakeRange(0, 11)] withFont:12 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:1];
+        
+        [_startHour setAttrubutwithText:[startdate substringWithRange:NSMakeRange(12, 5)] withFont:16 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:1];
+        
+        [_endDate setAttrubutwithText:[endData substringWithRange:NSMakeRange(0, 11)] withFont:12 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:1];
+        
+        [_endHour setAttrubutwithText:[endData  substringWithRange:NSMakeRange(12, 5)] withFont:16 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:1];
 
-        
-        //还车
-        NSDate * returnCarDate =  [NSDate dateWithTimeIntervalSince1970:[[self.model objectForKey:@"returnCarActualDate"]integerValue]/1000];
-        NSString *  returnString = [formatter stringFromDate:returnCarDate];
-        
-        
-        
-    
-        [_startDate setAttrubutwithText:[downdateString substringWithRange:NSMakeRange(0, 10)] withFont:12 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:1];
-        
-        [_startHour setAttrubutwithText:[downdateString substringWithRange:NSMakeRange(11, 5)] withFont:16 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:1];
-        
-        [_endDate setAttrubutwithText:[returnString substringWithRange:NSMakeRange(0, 10)] withFont:12 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:1];
-        
-        [_endHour setAttrubutwithText:[returnString substringWithRange:NSMakeRange(11, 5)] withFont:16 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:1];
         
         
         [oilLabel setAttrubutwithText:[self.model objectForKey:@"clientReturnCarFuel"] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         
         [endoilLabel setAttrubutwithText:[self.model objectForKey:@"returnCarFuel"] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         
-        [startmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ km",[self.model objectForKey:@"clientReturnCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+        [startmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"clientReturnCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         
-        [endmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ km",[self.model objectForKey:@"returnCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+        [endmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"returnCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         
-    
         [_startAddress setAttrubutwithText:[self.model objectForKey:@"clientReturnCarAddress"] withFont:10 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         
         [_endAddress setAttrubutwithText:[self.model objectForKey:@"returnCarAddress"] withFont:10 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:2];
@@ -417,8 +410,6 @@
         NSDate * update =  [NSDate dateWithTimeIntervalSince1970:[[self.model objectForKey:@"clientTakeCarDate"]integerValue]/1000];
         NSString *  updateString = [formatter stringFromDate:update];
 
-        
-        
         [_startDate setAttrubutwithText:[takeCarString substringWithRange:NSMakeRange(0, 10)] withFont:12 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:1];
        
         [_startHour setAttrubutwithText:[takeCarString substringWithRange:NSMakeRange(11, 5)] withFont:16 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:1];
@@ -427,25 +418,21 @@
         
         [_endHour setAttrubutwithText:[updateString substringWithRange:NSMakeRange(11, 5)] withFont:16 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:1];
 
-        
         [oilLabel setAttrubutwithText:[self.model objectForKey:@"takeCarFuel"] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
 
         [endoilLabel setAttrubutwithText:[self.model objectForKey:@"clientTakeCarFuel"] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         
-        [startmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ km",[self.model objectForKey:@"takeCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+        [startmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"takeCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
        
-        [endmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ km",[self.model objectForKey:@"clientTakeCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+        [endmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"clientTakeCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
 
         [_startAddress setAttrubutwithText:[self.model objectForKey:@"takeCarAddress"]withFont:10 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         
 //        [_endAddress setAttrubutwithText:[self.model objectForKey:@"returnCarAddress"] withFont:10 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:2];
 
-        
-
     }
     //接送机
-    else if([self.dataModel.taskType isEqualToString:@"3"] || [self.dataModel.taskType isEqualToString:@"4"])
-    {
+    else if([self.dataModel.taskType isEqualToString:@"3"] || [self.dataModel.taskType isEqualToString:@"4"]){
 
         NSString * startdate = [DBcommonUtils timeWithTimeIntervalString:self.dataModel.realStartTime];
         NSString * endData = [DBcommonUtils timeWithTimeIntervalString:self.dataModel.realEndTime];
@@ -468,26 +455,23 @@
             
              [takeOilLabel setAttrubutwithText:[self.model objectForKey:@"driverTakeCarFuel"] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
 //            [takemileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ km",[self.model objectForKey:@"driverTakeCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
-            [takemileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ km",[self.model objectForKey:@"takeCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
-
+            [takemileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"takeCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         }
         else{
              [takeOilLabel setAttrubutwithText:[self.model objectForKey:@"takeCarFuel"] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
-            [takemileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ km",[self.model objectForKey:@"takeCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+            [takemileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"takeCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         }
         
         if (![[self.model objectForKey:@"returnCarFuel"]isKindOfClass:[NSNull class]]) {
             [returnoilLabel setAttrubutwithText:[self.model objectForKey:@"returnCarFuel"] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         }
-    
-        [startmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ km",[self.model objectForKey:@"clientUpMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         
-        [endmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ km",[self.model objectForKey:@"clientDownMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+        [startmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"clientUpMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         
-                [returnmileageLabel  setAttrubutwithText:[NSString stringWithFormat:@"%@ km",[self.model objectForKey:@"returnCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+        [endmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"clientDownMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+        
+                [returnmileageLabel  setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"returnCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
 
-        
-        
         if ([[NSString stringWithFormat:@"%@",[self.model objectForKey:@"tripType"]]isEqualToString:@"1"]) {
             [_startAddress setAttrubutwithText:[[self.model objectForKey:@"transferPointShow"]objectForKey:@"pointName"] withFont:10 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
             
@@ -498,28 +482,20 @@
             [_startAddress setAttrubutwithText:[self.model objectForKey:@"tripAddress"] withFont:10 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
 //            [_endAddress setAttrubutwithText:[[self.model objectForKey:@"transferPointShow"]objectForKey:@"pointName"] withFont:10 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:2];
             [_endAddress setAttrubutwithText:[self.model objectForKey:@"clientActualDebusAddress"] withFont:10 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:2];
-            
-            
-            
-            
-            
         }
 
         if (![[self.model allKeys]containsObject:@"tripType"]) {
             [_startAddress setAttrubutwithText:[self.model objectForKey:@"takeCarAddress"] withFont:10 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
             
             [_endAddress setAttrubutwithText:[self.model objectForKey:@"returnCarAddress"] withFont:10 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:2];
-          
-         
-            
+
             if ([[NSString stringWithFormat:@"%@",[self.model objectForKey:@"orderState"]]isEqualToString:@"7"] || [[NSString stringWithFormat:@"%@",[self.model objectForKey:@"orderState"]]isEqualToString:@"6"]) {
                 
                 if ([[self.model allKeys]containsObject:@"clientActualDebusAddress"]) {
                     
                     if (![[self.model objectForKey:@"clientActualDebusAddress"]isKindOfClass:[NSNull class]]) {
                         _endAddress.text = [NSString stringWithFormat:@"%@",[self.model objectForKey:@"clientActualDebusAddress"] ];
-                        
-                        
+
                     }
                 }
             }

@@ -369,9 +369,20 @@
 //    String getOnFuel//上车油量
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
     
+    url  = [NSString stringWithFormat:@"%@/api/dispatch/task-doing?getOnMileage=%@&getOnFuel=%@&",HOST,[parameters objectForKey:@"getOnMileage"],[parameters objectForKey:@"getOnFuel"]];
     
-    url  = [NSString stringWithFormat:@"%@/api/dispatch/task-doing?getOnMileage=%@&getOnFuel=%@",HOST,[parameters objectForKey:@"getOnMileage"],[parameters objectForKey:@"getOnFuel"]];
+    
+    if ([[parameters allKeys]containsObject:@"onAddress"]) {
+        
 
+        url  = [NSString stringWithFormat:@"%@/api/dispatch/task-doing?getOnMileage=%@&getOnFuel=%@&onAddress=%@",HOST,[parameters objectForKey:@"getOnMileage"],[parameters objectForKey:@"getOnFuel"],[parameters objectForKey:@"onAddress"]];
+        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        
+//        url  = [NSString stringWithFormat:@"%@/api/dispatch/task-doing?getOnMileage=%@&getOnFuel=%@&onAddress=%@",HOST,[parameters objectForKey:@"getOnMileage"],[parameters objectForKey:@"getOnFuel"],@"12345678"];
+
+    }
+    
     
     NSMutableDictionary * waitDic = [NSMutableDictionary dictionary];
     waitDic[@"id"]= [parameters objectForKey:@"id"] ;
@@ -379,7 +390,6 @@
     waitDic[@"vehicleId"]= [parameters objectForKey:@"vehicleId"] ;
     waitDic[@"realStartTime"]= [parameters objectForKey:@"realStartTime"];
 
-    
     
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -460,15 +470,16 @@
     else if ([parameters.orderType isEqualToString:@"3"]){
         url = [NSString stringWithFormat:@"%@/api/contract/%@/contractDetail",HOST,parameters.orderCode];
     }
+    else if ([parameters.orderType isEqualToString:@"2"]){
+        url = [NSString stringWithFormat:@"%@/api/door/%@/contract",HOST,parameters.orderCode];
+    }
 
-    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
     [manager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
         
         if (success) {
             success(responseObject);

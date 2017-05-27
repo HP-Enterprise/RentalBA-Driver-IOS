@@ -12,7 +12,7 @@
 #import "DBChooseDateViewController.h"
 @interface DBStartBackRecord ()<UITextFieldDelegate>
 
-
+// triptype  1.接机   2送机
 
 @property (nonatomic,strong)NSDate * startDate;
 @property (nonatomic,strong)UIButton * startBt ;
@@ -21,6 +21,8 @@
 @property (nonatomic,strong)DBTextField * startTime;
 @property (nonatomic,strong)DBTextField * startOil;
 @property (nonatomic,strong)DBTextField * startMileage;
+@property (nonatomic,strong)DBTextField * startAddress;
+
 @property (nonatomic,strong)UIView * tipView ;
 @property (nonatomic,strong)NSMutableDictionary * infoDic ;
 @property (nonatomic,strong)DBDatePickerView   *  pickView ;
@@ -51,7 +53,14 @@
             
            self.orderInfoDic = [NSDictionary dictionaryWithDictionary:[responseObject objectForKey:@"message"]];
            self.vehicleId = [[responseObject objectForKey:@"message"]objectForKey:@"vehicleId"];
+ 
         }
+        
+        [self setUI];
+        
+        [self setDatePicker];
+        
+        [self setPickerView];
 
         NSLog(@"%@",responseObject);
 
@@ -67,11 +76,7 @@
     self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.97 blue:0.97 alpha:1];
     [self setNavigation];
     
-    [self setUI];
-    
-    [self setDatePicker];
-    
-    [self setPickerView];
+
 }
 
 
@@ -114,20 +119,50 @@
 
     
     
+    NSUserDefaults * user = [ NSUserDefaults standardUserDefaults];
+    [user objectForKey:@"userAddr"];
     
-    UILabel * addr = [[UILabel alloc]initWithFrame:CGRectMake(0, 74, ScreenWidth, 40) ];
     
-    [addr setAttrubutwithText:@"" withFont:12 withBackColor:nil withTextColor:[UIColor blackColor] withTextAlignment:0];
+
     
-    [self.view addSubview:addr];
-    
- 
-    
+    if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"tripType"]]isEqualToString:@"2"]) {
+        
+        _startAddress = [[DBTextField alloc]initWithFrame:CGRectMake(0, 74, ScreenWidth, 40) withTitle:@"上车地址"];
+        _startAddress.field.frame = CGRectMake(_startAddress.field.frame.origin.x, _startAddress.field.frame.origin.y, _startAddress.field.frame.size.width - 40, _startAddress.field.frame.size.height);
+        
+        _startAddress.field.placeholder = [NSString stringWithFormat:@"%@",[[user objectForKey:@"userAddr"] objectForKey:@"address"]];
+        [_startAddress.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
+        _startAddress.field.delegate = self ;
+        _startAddress.field.clearButtonMode = UITextFieldViewModeNever;
+        [_startAddress.field setValue:[UIFont systemFontOfSize:12] forKeyPath:@"_placeholderLabel.font"];
+        _startAddress.field.adjustsFontSizeToFitWidth = YES ;
+        _startAddress.field.text = [NSString stringWithFormat:@"%@",[[user objectForKey:@"userAddr"] objectForKey:@"address"]];
+        
+        
+        [self.view addSubview:_startAddress];
+        
+        UIButton * locationBt = [UIButton buttonWithType:UIButtonTypeCustom];
+        
+        locationBt.frame = CGRectMake(ScreenWidth  - 40 , 0, 30, 40);
+        [locationBt setImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
+        [locationBt addTarget:self action:@selector(changeLocation) forControlEvents:UIControlEventTouchUpInside];
+        [_startAddress addSubview:locationBt];
+        
+    }
     
     
     if ([self.model.dispatchOrigin isEqualToString:@"1"]) {
-        _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0, 74, ScreenWidth, 40) withTitle:@"取车时间"];
-      
+        
+        if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"tripType"]]isEqualToString:@"2"]) {
+            _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0, 124, ScreenWidth, 40) withTitle:@"取车时间"];
+
+        }
+        else if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"tripType"]]isEqualToString:@"1"]){
+            _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0, 74, ScreenWidth, 40) withTitle:@"取车时间"];
+
+        }
+        
+        
         [_startTime.field removeFromSuperview];
         _startBt = [UIButton buttonWithType:UIButtonTypeCustom];
         _startBt.frame = _startTime.field.frame ;
@@ -147,8 +182,18 @@
     
     
     else{
+
+        if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"tripType"]]isEqualToString:@"2"]) {
+            _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0, 124, ScreenWidth, 40) withTitle:@"上车时间"];
+            
+        }
+        else if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"tripType"]]isEqualToString:@"1"]){
+            _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0, 74, ScreenWidth, 40) withTitle:@"上车时间"];
+            
+        }
         
-        _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0, 74, ScreenWidth, 40) withTitle:@"上车时间"];
+        
+        
         [_startTime.field removeFromSuperview];
         _startBt = [UIButton buttonWithType:UIButtonTypeCustom];
         _startBt.frame = _startTime.field.frame ;
@@ -194,15 +239,10 @@
 
     [_startOil.field removeFromSuperview];
 
-    
-    
-    
-    
     [_startMileage.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1]
                        forKeyPath:@"_placeholderLabel.textColor"];
     _startMileage.field.delegate = self ;
     _startMileage.field.textColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] ;
-
     [_startMileage.field setValue:[UIFont systemFontOfSize:12] forKeyPath:@"_placeholderLabel.font"];
     [self.view addSubview:_startMileage];
 
@@ -214,7 +254,6 @@
     [submitBt addTarget:self action:@selector(submitRecord) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:submitBt];
   
-    
     if ([self.model.dispatchOrigin isEqualToString:@"1"]) {
         
         [_startBt setAttrubutwithTitle:@"请选择取车时间" withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
@@ -222,6 +261,16 @@
     }
 
     
+}
+
+
+//定位点击了
+-(void)changeLocation{
+    
+    NSUserDefaults * user = [ NSUserDefaults standardUserDefaults];
+    [user objectForKey:@"userAddr"];
+    
+    _startAddress.field.text = [NSString stringWithFormat:@"%@",[[user objectForKey:@"userAddr"] objectForKey:@"address"]];
 }
 
 -(void)setDatePicker{
@@ -370,7 +419,15 @@
     _infoDic[@"getOnFuel"] = _oilBt.titleLabel.text;
     _infoDic[@"id"] = self.model.id ;
     _infoDic[@"vehicleId"] = self.vehicleId ;
-
+    
+    if (_startAddress) {
+        if (_startAddress.field.text) {
+            _infoDic[@"onAddress"] = _startAddress.field.text;
+        }
+    }
+    
+    
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -379,8 +436,7 @@
     netData.startRecordBlcok = ^(id message)
     {
         if (![message isKindOfClass:[NSError class]]) {
-
-
+            
             if ([message isKindOfClass:[NSString class]]) {
                 
                 [self tipShow:message];
@@ -443,10 +499,8 @@
     
     NSArray *array = [[self.orderInfoDic objectForKey:@"takeCarFuel"] componentsSeparatedByString:@"/"];
     NSInteger takefuel = [[array firstObject]integerValue];
-    
     NSArray * nowFuelArray  = [self.oilBt.titleLabel.text componentsSeparatedByString:@"/"];
     NSInteger nowFuel = [[nowFuelArray firstObject]integerValue];
-    
     
     if (!dataInterval) {
         [self tipShow:@"请完善信息"];
@@ -477,8 +531,6 @@
         [self tipShow:[NSString stringWithFormat:@"里程数应大于%@",takeCarMileage]];
         return NO;
     }
-    
-    
     return YES ;
 }
 
@@ -495,7 +547,6 @@
         [self tipShow:@"请完善信息"];
         return NO;
     }
-    
     return YES ;
 }
 
@@ -504,9 +555,8 @@
 -(void)loadVehicleId{
     
     DBNewtWorkData * netData = [[DBNewtWorkData alloc]init];
-
     [DBNewtWorkData orderIdGet:nil parameters:self.model success:^(id responseObject) {
-        
+
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
             
             if ([[[responseObject objectForKey:@"message"]objectForKey:@"vehicleId"] isKindOfClass:[NSNull class]] || [[responseObject objectForKey:@"message"]objectForKey:@"vehicleId"] == nil) {
@@ -516,9 +566,7 @@
                 self.vehicleId = [[responseObject objectForKey:@"message"]objectForKey:@"vehicleId"];
                 _infoDic[@"vehicleId"] = self.vehicleId ;
                 
-                
                 [netData submitStartRecordPUT:nil parameters:_infoDic with:self.model];
-                
                 netData.startRecordBlcok = ^(id message){
 
                     if (![message isKindOfClass:[NSError class]]) {
@@ -530,48 +578,34 @@
                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                  [self.navigationController popViewControllerAnimated:YES];
                             });
-                           
                         }
                     }
                     if (![message isEqualToString:@"加载失败"]) {
                         [self.navigationController popViewControllerAnimated:YES];
                     }
-
                 };
-
             }
-        
         }
         NSLog(@"%@",responseObject);
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
     }];
-
 }
 
 //设置文本框只能输入数字
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
     NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string]; //得到输入框的内容
-    
     if (textField == _startMileage.field) {
         
         if (toBeString.length > 9) {
             return  NO ;
         }
-        
         return [self validateNumber:string];
-        
-        
-
     }
-    
     return YES ;
 }
 
 - (BOOL)validateNumber:(NSString*)number {
-    
-    
     BOOL res = YES;
     NSCharacterSet* tmpSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
     int i = 0;
@@ -587,9 +621,7 @@
     return res;
 }
 
-- (void)tipShow:(NSString *)str
-{
-    
+- (void)tipShow:(NSString *)str{
     self.tipView = [[DBTipView alloc]initWithHeight:0.8 * ScreenHeight WithMessage:str];
     [self.view addSubview:self.tipView];
     

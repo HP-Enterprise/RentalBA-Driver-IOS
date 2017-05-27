@@ -46,19 +46,11 @@
     
     
     [DBNewtWorkData orderIdGet:nil parameters:self.model success:^(id responseObject) {
-        
-        
-        
-        
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
-            
-            
             self.orderInfoDic = [NSDictionary dictionaryWithDictionary:[responseObject objectForKey:@"message"]];
-           
+        
         }
-        
-        
-        
+
         NSLog(@"%@",responseObject);
         
     } failure:^(NSError *error) {

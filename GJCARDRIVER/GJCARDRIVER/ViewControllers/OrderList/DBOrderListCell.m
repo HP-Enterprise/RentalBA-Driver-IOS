@@ -349,9 +349,9 @@
     
     CGFloat  width  = ScreenWidth/ 3;
     _startAddress.frame = CGRectMake(15, CGRectGetMaxY(_aifPortInfo.frame)+5, width , 40);
-     carLine.frame = CGRectMake( CGRectGetMaxX(_startAddress.frame), _startAddress.frame.origin.y + 20, width - 15, 0.5);
-    _endAddress.frame =CGRectMake(CGRectGetMaxX(carLine.frame)+5, _startAddress.frame.origin.y, width -15, 40);
-    _carName.frame = CGRectMake(CGRectGetMaxX(_startAddress.frame) , _startAddress.frame.origin.y - 5, width - 15  , 25);
+     carLine.frame = CGRectMake( CGRectGetMaxX(_startAddress.frame), _startAddress.frame.origin.y + 20, width - 30, 0.5);
+    _endAddress.frame =CGRectMake(CGRectGetMaxX(carLine.frame)+5, _startAddress.frame.origin.y, width , 40);
+    _carName.frame = CGRectMake(CGRectGetMaxX(_startAddress.frame) , _startAddress.frame.origin.y - 5, width - 30  , 25);
 
 
 

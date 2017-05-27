@@ -224,15 +224,24 @@ DBLog(@"18定位了  ");
             DBLog(@"崩之前");
             NSString *state = pmark.addressDictionary[@"State"];
             NSString *city = pmark.addressDictionary[@"City"];
-            NSString *city1 = pmark.addressDictionary[@"Name"];
-            NSString *city2 = pmark.addressDictionary[@"Street"];
+            NSString *Name = pmark.addressDictionary[@"Name"];
+            NSString *Street = pmark.addressDictionary[@"Street"];
             NSString *subLocality = pmark.addressDictionary[@"SubLocality"];
-            NSString *street = [pmark.addressDictionary[@"FormattedAddressLines"]firstObject];
+            NSString *FormattedAddressLines = [pmark.addressDictionary[@"FormattedAddressLines"]firstObject];
             
-            NSDictionary * dic = [NSDictionary dictionaryWithObjects:@[city,[NSString stringWithFormat:@"%@%@%@%@",state,city,subLocality,city2]] forKeys:@[@"city",@"address"]];
+            NSDictionary * dic ;
+//            = [NSDictionary dictionaryWithObjects:@[city,[NSString stringWithFormat:@"%@%@%@%@",state,city,subLocality,Street]] forKeys:@[@"city",@"address"]];
+            
+            
+            if ([FormattedAddressLines hasPrefix:@"中国"]) {
+                NSString * newadress = [FormattedAddressLines stringByReplacingOccurrencesOfString:@"中国" withString:@""];
+                dic = [NSDictionary dictionaryWithObjects:@[city,newadress] forKeys:@[@"city",@"address"]];
+            }
+            NSString * subThoroughfare = pmark.subThoroughfare ;
             [user setObject:dic forKey:@"userAddr"];
 
-            DBLog(@"崩之后");
+            DBLog(@"崩之后 %@",pmark.subThoroughfare);
+            
         }
     
     }];
