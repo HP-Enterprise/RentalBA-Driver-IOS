@@ -540,6 +540,9 @@
     if ([parameters.orderType isEqualToString:@"3"]) {
         url = [NSString stringWithFormat:@"%@/api/driver/%@/order",HOST,parameters.orderCode];
     }
+    else if ([parameters.orderType isEqualToString:@"2"]) {
+        url = [NSString stringWithFormat:@"%@/api/door/%@/order",HOST,parameters.orderCode];
+    }
 
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -691,44 +694,32 @@
     [manager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         if (success) {
-            if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
-             {
-    
+            if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]){
                  if ([[responseObject objectForKey:@"message"] isKindOfClass:[NSNull class]] || [responseObject objectForKey:@"message"] ==nil){
-                 
                  }
                  else if ([[[responseObject objectForKey:@"message"]objectForKey:@"appVersion"]isEqualToString:@"0000"]){
-   
                  }
                  else if(![[[responseObject objectForKey:@"message"]objectForKey:@"appVersion"]isEqualToString:oldversion]){
-    
                      NSString * version = [[responseObject objectForKey:@"message"]objectForKey:@"appVersion"] ;
                      NSString * newVersion = [version stringByReplacingOccurrencesOfString:@"." withString:@""];
                      NSString * oldVersion = [oldversion stringByReplacingOccurrencesOfString:@"." withString:@""];
     
                      if ([newVersion integerValue] > [oldVersion integerValue]) {
-
                          success(responseObject);
                      }
                      else{
 //                         success(@"false"); 
                      }
                  }
-                 
              }
             else{
 //                 success(@"false");
             }
-
-           
         }
-        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
         if (failure) {
             failure(error);
         }
-        
     }];
 
 //    

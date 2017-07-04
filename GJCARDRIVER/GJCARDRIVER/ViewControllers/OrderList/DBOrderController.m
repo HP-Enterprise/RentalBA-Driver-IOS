@@ -32,6 +32,11 @@
 #import "DBOrderInfoViewController.h"
 #import "DBGetCarViewController.h"
 #import "DBRefuseView.h"
+
+//门到门
+#import "DBGetViewController.h"
+
+
 @interface DBOrderController ()<UIScrollViewDelegate,UITextViewDelegate>
 
 {
@@ -120,6 +125,8 @@
     
 }
 
+
+#pragma mark --- 加载任务列表信息
 -(void)loadData{
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
     
@@ -344,16 +351,13 @@
 
 -(void)changeToSecend{
     
-    
     [UIView animateWithDuration:0.2 animations:^{
-        
         CGPoint newPoint = self.orderScrollView.contentOffset ;
         
         if (newPoint.x == 0) {
              newPoint.x = ScreenWidth;
         }
          self.orderScrollView.contentOffset = newPoint;
-        
     }];
     [self scrollViewMove];
 }
@@ -405,13 +409,15 @@
     [self scrollViewMove];
 }
 
+
+
+#pragma mark --- 处理接收 拒绝订单按钮
+
 //处理接收 拒绝订单按钮
 -(void)orderClick:(NSNotification*)notification{
 
     NSString * object = [notification.object objectForKey:@"index"] ;
     
-    
-
     if ([object isEqualToString:@"确认"]) {
 
         [self acceptOrder:[notification.object objectForKey:@"dic"]];
@@ -423,7 +429,7 @@
     else if ([object isEqualToString:@"提车"]){
         [self getId:notification];
 
-          }
+    }
     else if ([object isEqualToString:@"上车"]){
         [self getId:notification];
         
@@ -450,6 +456,9 @@
     DBLog(@"%@",notification);
 }
 
+
+
+#pragma mark --- 执行点击任务
 //执行订单
 -(void)getId:(NSNotification*)notification{
 
@@ -459,31 +468,32 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
     
-    
     __weak typeof(self)weak_self = self ;
     [DBNewtWorkData orderIdGet:nil parameters:[notification.object objectForKey:@"dic"] success:^(id responseObject) {
         
         [weak_self.tipView removeFromSuperview];
-        
-        
-        
+
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
 
-//            //测试
-//            DBGetCarViewController * getCar = [[DBGetCarViewController alloc]init];
-//            
-//            [weak_self.navigationController pushViewController:getCar animated:YES];
-//            
-//            
             if ( ![[responseObject objectForKey:@"message"]isKindOfClass:[NSNull class]] ) {
 
-                
                 NSString * object = [notification.object objectForKey:@"index"] ;
                 
                 if ([object isEqualToString:@"提车"]) {
-                    DBGetCarViewController * getCar = [[DBGetCarViewController alloc]init];
-                    getCar.model = [notification.object objectForKey:@"dic"] ;
-                    [weak_self.navigationController pushViewController:getCar animated:YES];
+                    
+                    DBWaitWorkModel * model = [notification.object objectForKey:@"dic"] ;
+                    
+                    //判断门到门
+                    if ([model.dispatchOriginName isEqualToString:@"门到门订单"]) {
+                        DBGetViewController * get = [[DBGetViewController alloc]init];
+                        get.model = [notification.object objectForKey:@"dic"] ;
+                        [weak_self.navigationController pushViewController:get animated:YES];
+                    }
+                    else{
+                        DBGetCarViewController * getCar = [[DBGetCarViewController alloc]init];
+                        getCar.model = [notification.object objectForKey:@"dic"] ;
+                        [weak_self.navigationController pushViewController:getCar animated:YES];
+                    }
                 }
                 else if ([object isEqualToString:@"上车"]){
                     DBStartBackRecord * start = [[DBStartBackRecord alloc]init];
@@ -671,7 +681,7 @@
 
 -(NSArray*)finishWorkData{
     if (!_finishWorkData) {
-        _finishWorkData = [NSArray array];
+        _finishWorkData = [NSMutableArray array];
     }
     return  _finishWorkData;
 }
@@ -691,7 +701,6 @@
     
     //版本检测
 //    [self loadVersion];
-    
     self.navigationController.navigationBarHidden = NO;
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(orderClick:) name:@"orderCellClick" object:nil];

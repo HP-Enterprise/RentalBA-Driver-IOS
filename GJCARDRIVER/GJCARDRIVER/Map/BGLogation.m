@@ -232,18 +232,14 @@ DBLog(@"18定位了  ");
             NSDictionary * dic ;
 //            = [NSDictionary dictionaryWithObjects:@[city,[NSString stringWithFormat:@"%@%@%@%@",state,city,subLocality,Street]] forKeys:@[@"city",@"address"]];
             
-            
             if ([FormattedAddressLines hasPrefix:@"中国"]) {
                 NSString * newadress = [FormattedAddressLines stringByReplacingOccurrencesOfString:@"中国" withString:@""];
                 dic = [NSDictionary dictionaryWithObjects:@[city,newadress] forKeys:@[@"city",@"address"]];
             }
             NSString * subThoroughfare = pmark.subThoroughfare ;
             [user setObject:dic forKey:@"userAddr"];
-
-            DBLog(@"崩之后 %@",pmark.subThoroughfare);
-            
+            DBLog(@"崩之后%@",pmark.subThoroughfare);
         }
-    
     }];
 
     
@@ -303,16 +299,11 @@ DBLog(@"18定位了  ");
     if (error == BMK_SEARCH_NO_ERROR) {
         NSLog(@"反向编码结果%@",[NSString stringWithFormat:@"%@",result.address]);
         NSDictionary * location = [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%f",result.location.latitude],[NSString stringWithFormat:@"%f",result.location.longitude]] forKeys:@[@"latitude",@"longitude"]];
-        
         NSDictionary * dic = [NSDictionary dictionaryWithObjects:@[result.addressDetail.city,result.addressDetail.streetName,result.address,location] forKeys:@[@"city",@"streetName",@"address",@"location"]];
-        
         NSUserDefaults * user = [ NSUserDefaults standardUserDefaults];
         [user setObject:dic forKey:@"userAddr"];
-        
     }
-    
     else {
-        
         NSLog(@"未找到结果");
     }
     

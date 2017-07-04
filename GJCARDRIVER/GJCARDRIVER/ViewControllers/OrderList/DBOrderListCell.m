@@ -38,12 +38,7 @@
 }
 
 -(void)setUI{
-    
 
-    
-    
-    
-    
     
     UIView * headerView = [[ UIView alloc]initWithFrame:CGRectMake(0, 0,    ScreenWidth, 10)];
     headerView.backgroundColor = [UIColor colorWithRed:0.96 green:0.97 blue:0.97 alpha:1] ;
@@ -65,7 +60,6 @@
     
     _topControl = [[UIControl alloc]initWithFrame:CGRectMake(0, 10, self.contentView.frame.size.width, 40)];
     [self addSubview:_topControl];
-    
     
     
     _orderType = [[UILabel alloc]initWithFrame:CGRectMake(15,0, ScreenWidth/3, 40)];
@@ -229,11 +223,10 @@
     }
     else if ([model.orderType isEqualToString:@"3"]){
 //        headView.backgroundColor =[UIColor colorWithRed:0.99 green:0.74 blue:0.25 alpha:1];
-        
-        
-        
-        
 
+    }
+    else if ([model.orderType isEqualToString:@"2"]){
+        _orderType.text = [NSString stringWithFormat:@"门到门-%@",model.taskTypeName];
     }
 //
     
@@ -279,18 +272,12 @@
 //        headView.backgroundColor =[UIColor colorWithRed:0.99 green:0.74 blue:0.25 alpha:1];
 //        
 //    }
-    if ([model.taskType isEqualToString:@"1"])
-    {
-//        _startAddress.text = model.callOutStoreAddress ;
-//        _endAddress.text = model.customerAddress ;
-    }
-    else if ([model.taskType isEqualToString:@"2"]){
-//        _startAddress.text = model.callInStoreAddress ;
-//        _endAddress.text = model.customerAddress ;
-        
+
+    if ([model.orderType isEqualToString:@"2"]){
+        _orderType.text = [NSString stringWithFormat:@"门到门-%@",model.taskTypeName];
     }
     
-    else if ([model.taskType isEqualToString:@"3"]){
+    if ([model.taskType isEqualToString:@"3"]){
         _startAddress.text= model.airport;
         _endAddress.text = model.tripAddress ;
 
@@ -339,9 +326,15 @@
 
     }
     
+    
     _orderType.text = model.orderTypeName;
     _carName.text = model.modelName ;
 
+    if ([model.orderType isEqualToString:@"2"]){
+        _orderType.text = [NSString stringWithFormat:@"门到门-%@",model.taskTypeName];
+    }
+    
+    
     self.model = model ;
     
     

@@ -14,6 +14,8 @@
 		0B1EE5211EA0BBE9002F077C /* DBCarListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1EE5201EA0BBE9002F077C /* DBCarListCell.m */; };
 		0B1EE5271EA36D16002F077C /* DBReturnCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1EE5261EA36D16002F077C /* DBReturnCarViewController.m */; };
 		0B41BBD61E0A3343005ABC9F /* DBDoorBackRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B41BBD51E0A3343005ABC9F /* DBDoorBackRecord.m */; };
+		0B5402D91EF264DF00CBE825 /* DBGetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5402D81EF264DF00CBE825 /* DBGetViewController.m */; };
+		0B5402E01EF27EA700CBE825 /* DBDoorOrderVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5402DF1EF27EA700CBE825 /* DBDoorOrderVIew.m */; };
 		0B612D601EA848D700AF7123 /* x-man.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B612D5F1EA848D700AF7123 /* x-man.jpg */; };
 		0B683E4E1DD5CA62009E6EE9 /* BGLogation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B683E441DD5CA62009E6EE9 /* BGLogation.m */; };
 		0B683E4F1DD5CA62009E6EE9 /* BGTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B683E461DD5CA62009E6EE9 /* BGTask.m */; };
@@ -61,6 +63,7 @@
 		0B9115A41DD5C97D0031FB42 /* jpush-ios-2.2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B9115A21DD5C97D0031FB42 /* jpush-ios-2.2.0.a */; };
 		0BA4F2221DED24E3005FDA35 /* DBNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA4F2211DED24E3005FDA35 /* DBNetManager.m */; };
 		0BB84F4D1EB346AE009561CA /* 车@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BB84F4C1EB346AE009561CA /* 车@2x.png */; };
+		0BD65D011EE5312800EB7A46 /* userImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BD65D001EE5312800EB7A46 /* userImage.png */; };
 		0BF91E871DD5C73500BF01E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF91E861DD5C73500BF01E0 /* main.m */; };
 		0BF91E8A1DD5C73500BF01E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF91E891DD5C73500BF01E0 /* AppDelegate.m */; };
 		0BF91E8D1DD5C73500BF01E0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF91E8C1DD5C73500BF01E0 /* ViewController.m */; };
@@ -116,6 +119,10 @@
 		0B1EE5281EA3D2FB002F077C /* GJCARDRIVER.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GJCARDRIVER.entitlements; sourceTree = "<group>"; };
 		0B41BBD41E0A3343005ABC9F /* DBDoorBackRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBDoorBackRecord.h; sourceTree = "<group>"; };
 		0B41BBD51E0A3343005ABC9F /* DBDoorBackRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBDoorBackRecord.m; sourceTree = "<group>"; };
+		0B5402D71EF264DF00CBE825 /* DBGetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBGetViewController.h; sourceTree = "<group>"; };
+		0B5402D81EF264DF00CBE825 /* DBGetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBGetViewController.m; sourceTree = "<group>"; };
+		0B5402DE1EF27EA700CBE825 /* DBDoorOrderVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBDoorOrderVIew.h; sourceTree = "<group>"; };
+		0B5402DF1EF27EA700CBE825 /* DBDoorOrderVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBDoorOrderVIew.m; sourceTree = "<group>"; };
 		0B612D5F1EA848D700AF7123 /* x-man.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "x-man.jpg"; sourceTree = "<group>"; };
 		0B683E431DD5CA62009E6EE9 /* BGLogation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGLogation.h; sourceTree = "<group>"; };
 		0B683E441DD5CA62009E6EE9 /* BGLogation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGLogation.m; sourceTree = "<group>"; };
@@ -199,6 +206,7 @@
 		0BA4F2201DED24E3005FDA35 /* DBNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBNetManager.h; sourceTree = "<group>"; };
 		0BA4F2211DED24E3005FDA35 /* DBNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBNetManager.m; sourceTree = "<group>"; };
 		0BB84F4C1EB346AE009561CA /* 车@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "车@2x.png"; sourceTree = "<group>"; };
+		0BD65D001EE5312800EB7A46 /* userImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = userImage.png; sourceTree = "<group>"; };
 		0BF91E821DD5C73500BF01E0 /* GJCARDRIVER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GJCARDRIVER.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF91E861DD5C73500BF01E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0BF91E881DD5C73500BF01E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -288,6 +296,41 @@
 			name = DBReturnCar;
 			sourceTree = "<group>";
 		};
+		0B5402D41EF2612B00CBE825 /* DoorToDoor */ = {
+			isa = PBXGroup;
+			children = (
+				0B5402DA1EF27E2B00CBE825 /* OrderDetail */,
+				0B5402D61EF2647F00CBE825 /* returnCar */,
+				0B5402D51EF2646E00CBE825 /* getCar */,
+			);
+			name = DoorToDoor;
+			sourceTree = "<group>";
+		};
+		0B5402D51EF2646E00CBE825 /* getCar */ = {
+			isa = PBXGroup;
+			children = (
+				0B5402D71EF264DF00CBE825 /* DBGetViewController.h */,
+				0B5402D81EF264DF00CBE825 /* DBGetViewController.m */,
+			);
+			name = getCar;
+			sourceTree = "<group>";
+		};
+		0B5402D61EF2647F00CBE825 /* returnCar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = returnCar;
+			sourceTree = "<group>";
+		};
+		0B5402DA1EF27E2B00CBE825 /* OrderDetail */ = {
+			isa = PBXGroup;
+			children = (
+				0B5402DE1EF27EA700CBE825 /* DBDoorOrderVIew.h */,
+				0B5402DF1EF27EA700CBE825 /* DBDoorOrderVIew.m */,
+			);
+			name = OrderDetail;
+			sourceTree = "<group>";
+		};
 		0B683E421DD5CA62009E6EE9 /* Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,6 +345,7 @@
 		0B6D2AB51EA78B4E002AF5BA /* UserInfo */ = {
 			isa = PBXGroup;
 			children = (
+				0BD65D001EE5312800EB7A46 /* userImage.png */,
 				0B612D5F1EA848D700AF7123 /* x-man.jpg */,
 				0B6D2AB61EA78FBD002AF5BA /* DBUserInfoManager.h */,
 				0B6D2AB71EA78FBD002AF5BA /* DBUserInfoManager.m */,
@@ -360,6 +404,7 @@
 				0B1EE5181EA0B795002F077C /* DBGetCar */,
 				0B7E6EFC1DD94C7C00C27378 /* OrderList */,
 				0B7E6EDA1DD5CBA000C27378 /* BackRecord */,
+				0B5402D41EF2612B00CBE825 /* DoorToDoor */,
 				0B7E6EDF1DD5CBA000C27378 /* LogIn */,
 			);
 			path = ViewControllers;
@@ -695,6 +740,7 @@
 				0B683E511DD5CA62009E6EE9 /* Assets.xcassets in Resources */,
 				0B7E6F421DE57F2400C27378 /* progress1.png in Resources */,
 				0B7E6F441DE57F2400C27378 /* progress3.png in Resources */,
+				0BD65D011EE5312800EB7A46 /* userImage.png in Resources */,
 				0BF91E901DD5C73500BF01E0 /* Main.storyboard in Resources */,
 				0BB84F4D1EB346AE009561CA /* 车@2x.png in Resources */,
 				0B7E6F471DE57F2400C27378 /* progress6.png in Resources */,
@@ -798,11 +844,13 @@
 				0B7E6ED61DD5CB8900C27378 /* DBNewtWorkData.m in Sources */,
 				0B7E6ECF1DD5CB7B00C27378 /* UILabel+selfLebel.m in Sources */,
 				0B683E4E1DD5CA62009E6EE9 /* BGLogation.m in Sources */,
+				0B5402E01EF27EA700CBE825 /* DBDoorOrderVIew.m in Sources */,
 				0B7E6F111DD959C300C27378 /* DBFinishOrderDetailView.m in Sources */,
 				0B683E4F1DD5CA62009E6EE9 /* BGTask.m in Sources */,
 				0B7E6EF01DD5CBA000C27378 /* DBEndBackRecord.m in Sources */,
 				0B7E6F071DD94C7C00C27378 /* DBOrderController.m in Sources */,
 				0B7E6F191DDAF91B00C27378 /* DBTipView.m in Sources */,
+				0B5402D91EF264DF00CBE825 /* DBGetViewController.m in Sources */,
 				0B7E6F321DE2C80000C27378 /* DBResetViewController.m in Sources */,
 				0B1EE5271EA36D16002F077C /* DBReturnCarViewController.m in Sources */,
 				0B6D2AB81EA78FBD002AF5BA /* DBUserInfoManager.m in Sources */,

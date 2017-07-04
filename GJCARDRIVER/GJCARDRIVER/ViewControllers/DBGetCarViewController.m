@@ -41,9 +41,7 @@
             else{
                 [self showCarInfo];
             }
-            
         }
-        
     } failure:^(NSError *error) {
         
     }];
@@ -64,8 +62,6 @@
     self.title = @"分配车辆";
     self.navigationController.navigationBar.barTintColor = BascColor ;
 
-    
-    
     //导航栏搜索按钮
 //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self rightBarButtonItem]];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self leftBarButtonItem]];

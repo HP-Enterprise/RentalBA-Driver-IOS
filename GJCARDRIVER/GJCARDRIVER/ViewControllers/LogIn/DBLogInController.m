@@ -175,8 +175,7 @@
 {
     __weak typeof(self)weak_self = self ;
     
-    [DBNewtWorkData GetVersion:nil parameters:nil success:^(id responseObject)
-     {
+    [DBNewtWorkData GetVersion:nil parameters:nil success:^(id responseObject){
          
          NSString * flag = [NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"message"]objectForKey:@"forceUpdate"]];
          
@@ -206,7 +205,6 @@
          [alertController addAction:okAction];
          
          [weak_self presentViewController:alertController animated:YES completion:nil];
-         
          
      } failure:^(NSError *error) {
      }];

@@ -166,10 +166,9 @@
             
             cell.refuseBt.tag = 200 + indexPath.row;
             [cell.refuseBt addTarget:self action:@selector(acceptBtClick:) forControlEvents:UIControlEventTouchUpInside];
-
             cell.selectionStyle  = 0 ;
+            
         }
-        
         cell.topControl.tag = 1000 + indexPath.row;
         [cell.topControl addTarget:self action:@selector(waitClick:) forControlEvents:UIControlEventTouchUpInside];
         [self loadOrderWithCell:self.waitWorkData[indexPath.row] with:cell];
@@ -295,8 +294,8 @@
 -(void)acceptBtClick:(UIButton*)button{
     NSDictionary * dic ;
     
+    
     if ([button.titleLabel.text isEqualToString:@"确认"]) {
-        
         dic = @{@"dic":self.waitWorkData[button.tag - 100],@"index":button.titleLabel.text};
         
     }
@@ -361,7 +360,6 @@
 
         
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
-            
             detailDic = [responseObject objectForKey:@"message"] ;
             transferPointShow =  [detailDic objectForKey:@"transferPointShow"];
             [self configwithdic:parameters with:cell];
@@ -376,22 +374,14 @@
                     detailDic = [response objectForKey:@"message"] ;
                     transferPointShow =  [detailDic objectForKey:@"transferPointShow"];
                     [self configwithdic:parameters with:cell];
-
                 }
                 
             } failure:^(NSError *error) {
                 
             }];
-            
         }
 
 
-        
-
-
-        
-        
-        
     } failure:^(NSError *error) {
         
     }];
@@ -399,7 +389,17 @@
 
 -(void)configwithdic:(DBWaitWorkModel *)parameters with:(DBOrderListCell *)cell{
     //takeCarDate
+    
+
+    
     NSString * startdate = [DBcommonUtils timeWithTimeIntervalString: [NSString stringWithFormat:@"%@",[detailDic objectForKey:@"takeCarDate"] ]];
+    
+    if ([parameters.orderType isEqualToString:@"2"]) {
+        startdate = [DBcommonUtils timeWithTimeIntervalString: [NSString stringWithFormat:@"%@",parameters.expectStartTime]];
+    }
+    
+    
+    DBLog(@"%@",startdate);
     
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
@@ -426,9 +426,8 @@
         cell.userTime.text  = startdate ;
     }
     
-    
-    
     cell.orderNumber.text = [NSString stringWithFormat:@"订单编号: %@",parameters.orderCode];
+    
     if (![[detailDic objectForKey:@"airlineCompany"]isKindOfClass:[NSNull class]] && ![[detailDic objectForKey:@"airlineCompany"]isEqualToString:@""]) {
         cell.aifPortInfo.text = [NSString stringWithFormat:@"航班信息: %@/%@",[detailDic objectForKey:@"airlineCompany"],[detailDic objectForKey:@"flightNumber"]];
     }
@@ -454,11 +453,8 @@
         cell.orderType.text = @"送机";
         cell.startAddress.text= [NSString stringWithFormat:@"%@",[detailDic objectForKey:@"tripAddress"] ];
         cell.endAddress.text = [NSString stringWithFormat:@"%@",[transferPointShow objectForKey:@"pointName"] ];
-
     }
 
-       //            cell.carName.text = parameters.modelName ;
-    
     //短租代驾
     if ([parameters.orderType isEqualToString:@"3"]) {
         
@@ -477,7 +473,32 @@
         
  
     }
-    else if ([parameters.orderType isEqualToString:@"4"]){
+    
+    //门到门
+    else if ([parameters.orderType isEqualToString:@"2"]){
+
+        if ([[detailDic allKeys]containsObject:@"outsideDistance"]){
+            if (![[detailDic objectForKey:@"outsideDistance"]isKindOfClass:[NSNull class]]) {
+                
+                cell.mileageLabel.text = [NSString stringWithFormat:@"预估里程: %@公里",[detailDic objectForKey:@"outsideDistance"]];
+            }
+        }
+        else{
+            cell.mileageLabel.text = @"预估里程: 0公里" ;
+        }
+        
+        if ([parameters.taskType isEqualToString:@"1"]) {
+            
+            cell.startAddress.text= [NSString stringWithFormat:@"%@",parameters.callOutStoreAddress];
+            cell.endAddress.text = [NSString stringWithFormat:@"%@",parameters.customerAddress];
+        }
+        else if ([parameters.taskType isEqualToString:@"2"]){
+            cell.startAddress.text= [NSString stringWithFormat:@"%@",parameters.customerAddress];
+            cell.endAddress.text = [NSString stringWithFormat:@"%@",parameters.callInStoreAddress];
+        }
+        
+        cell.aifPortInfo.text = @"";
+        
         
     }
     
@@ -489,19 +510,14 @@
             if (![[detailDic objectForKey:@"clientActualDebusAddress"]isKindOfClass:[NSNull class]]) {
                
                 cell.endAddress.text = [NSString stringWithFormat:@"%@",[detailDic objectForKey:@"clientActualDebusAddress"] ];
-
-                
             }
         }
     }
 }
 
 -(void)loadOrder:(DBWaitWorkModel *)parameters with:(UIButton*)butotn{
-    
-    
-    
     [self contracParameters:parameters with:nil success:^(id responseObject) {
-
+      
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
             
             if ([[NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"message"]objectForKey:@"orderState"] ]isEqualToString:@"2"]) {
@@ -514,14 +530,12 @@
             }
             else if ([[NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"message"]objectForKey:@"orderState"] ]isEqualToString:@"5"]){
                 [butotn setTitle:@"还车" forState:UIControlStateNormal];
-                
             }
             else if ([[NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"message"]objectForKey:@"orderState"] ]isEqualToString:@"6"]){
                 [butotn setTitle:@"详情" forState:UIControlStateNormal];
                 
             }else if ([[NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"message"]objectForKey:@"orderState"] ]isEqualToString:@"7"]){
                 [butotn setTitle:@"详情" forState:UIControlStateNormal];
-            
             }
         }
         
@@ -572,6 +586,10 @@
     if ([parameters.orderType isEqualToString:@"3"]) {
         url = [NSString stringWithFormat:@"%@/api/driver/%@/order",HOST,parameters.orderCode];
     }
+    else if ([parameters.orderType isEqualToString:@"2"]) {
+        url = [NSString stringWithFormat:@"%@/api/door/%@/order",HOST,parameters.orderCode];
+    }
+
     
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];

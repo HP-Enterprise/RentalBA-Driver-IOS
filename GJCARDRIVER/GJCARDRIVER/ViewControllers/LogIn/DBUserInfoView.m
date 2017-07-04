@@ -43,19 +43,17 @@
 #pragma mark --创建个人信息view
 -(void)createUserInfo
 {
-
+    
+    
     UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0 , ScreenWidth , 300)];
     baseView.backgroundColor = [UIColor whiteColor] ;
     [self addSubview:baseView];
     
     //循环创建
-    for (int i = 0 ; i < 7; i ++)
-    {
+    for (int i = 0 ; i < 8; i ++){
         UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 0 + i * 40 , ScreenWidth, 0.5)];
         lineView.backgroundColor  =  [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
         [baseView addSubview:lineView];
-        
-
     }
     //头像
     UILabel * imageLabel = [[UILabel alloc]initWithFrame:CGRectMake( 20, 0, ScreenWidth /2, 40)];
@@ -66,7 +64,9 @@
     
     
     UIImageView * imageV = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth - 60 , 5, 30, 30 )];
-    imageV.image = [UIImage imageNamed:@"x-man.jpg"];
+    imageV.image = [UIImage imageNamed:@"userImage"];
+    imageV.layer.cornerRadius = 15 ;
+    imageV.layer.masksToBounds = YES ;
     [baseView addSubview:imageV];
     
     
@@ -276,116 +276,35 @@
     phoneNumber.tag = 454 ;
     
     
+
+    //版本号
+
+
+    UILabel * changePw = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(phoneLabel.frame), ScreenWidth - 20, 40)];
+    changePw.text = @"当前版本" ;
+    changePw.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1];
+    changePw.font = [UIFont systemFontOfSize:14];
+    changePw.textAlignment = 0 ;
+    [baseView addSubview:changePw];
+
+
+    NSString* oldversion =[[NSBundle mainBundle]objectForInfoDictionaryKey:(NSString*)@"CFBundleShortVersionString"];
+
     
-//    UIImageView * phoneImage = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth - 16 ,phoneNumber.frame.origin.y + 14 , 6  , 11 )];
-//    
-//    phoneImage.image =[UIImage imageNamed:@"next"];
-//    //    [baseView addSubview:phoneImage];
-//    
-//    
-//    //修改
-//    UIControl * changePhone = [[UIControl alloc]initWithFrame:CGRectMake(20, phoneLabel.frame.origin.y, ScreenWidth - 20, 30)];
-//    
-//    [changePhone addTarget:self action:@selector(changePhone) forControlEvents:UIControlEventTouchUpInside];
-    //    [baseView addSubview:changePhone];
     
+    UILabel * versionLabel =[[UILabel alloc]initWithFrame:CGRectMake(0, changePw.frame.origin.y, ScreenWidth - 30 , 40)];
+    versionLabel.text = [NSString stringWithFormat:@"v%@",oldversion];
+    versionLabel.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1];
+    versionLabel.font = [UIFont systemFontOfSize:14];
+    versionLabel.textAlignment = 2 ;
+    [baseView addSubview:versionLabel];
     
     
     
 
-//
-//    
-//    
-//    UIImageView * emailImage = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth - 16 ,emailNumber.frame.origin.y + 14 , 6  , 11 )];
-//    
-//    emailImage.image =[UIImage imageNamed:@"next"];
-//    [baseView addSubview: emailImage];
-//    
-//    
-//    //修改
-//    UIControl * changeEmail = [[UIControl alloc]initWithFrame:CGRectMake(20, emailLabel.frame.origin.y, ScreenWidth - 20, 30)];
-//    
-//    [changeEmail addTarget:self action:@selector(changeEmail) forControlEvents:UIControlEventTouchUpInside];
-//    [baseView addSubview:changeEmail];
-//    
-//    //修改密码
-//    UIView * lineView1 = [[UIView alloc]initWithFrame:CGRectMake(0,  CGRectGetMaxY(emailLabel.frame)+19.5 , ScreenWidth, 0.5)];
-//    lineView1.backgroundColor  =  [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
-//    [baseView addSubview:lineView1];
-//    
-//    
-//    UIButton * changePwBt = [UIButton buttonWithType:UIButtonTypeCustom];
-//    changePwBt.frame = CGRectMake(0 , CGRectGetMaxY(baseView.frame)+20, ScreenWidth  , 40);
-//    [changePwBt addTarget:self action:@selector(changPw) forControlEvents:UIControlEventTouchUpInside];
-//    changePwBt.backgroundColor = [UIColor whiteColor];
-//    
-//    [self.view addSubview:changePwBt];
-
-//    UILabel * changePw = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(baseView.frame)+20, ScreenWidth - 20, 40)];
-//    changePw.text = @"修改密码" ;
-//    changePw.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1];
-//    changePw.font = [UIFont systemFontOfSize:14];
-//    changePw.textAlignment = 0 ;
-//    [self.view addSubview:changePw];
-//    
-//    
-//    UIView * lineView2 = [[UIView alloc]initWithFrame:CGRectMake( -20 ,  39.5 , ScreenWidth, 0.5)];
-//    lineView2.backgroundColor  =  [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
-//    [changePw addSubview:lineView2];
-    
-    
-//    //注销
-//    UIButton * alipayBt = [UIButton buttonWithType:UIButtonTypeCustom];
-//    alipayBt.frame = CGRectMake( 50 , CGRectGetMaxY(phoneNumber.frame)+40 ,ScreenWidth - 100  , 30 );
-//    [alipayBt setTitle:@"退出登录" forState:UIControlStateNormal];
-//    [alipayBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    alipayBt.titleLabel.font = [UIFont systemFontOfSize:14 ];
-//    alipayBt.layer.cornerRadius = 5 ;
-//    alipayBt.backgroundColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
-//    [alipayBt addTarget:self action:@selector(deletBt) forControlEvents:UIControlEventTouchUpInside];
-//    [baseView  addSubview:alipayBt];
-
-//    //用户头像
-//    UIView * userImage =[[DBSelfView alloc]initWithFrame:CGRectMake(0 , 0, ScreenWidth, 40) withTitle:@"头像" withInfo:[UIImage imageNamed:@"xmen.jpg"] withUserEnble:NO];
-//    [self addSubview:userImage];
-//    
-//    //昵称
-//    UIView * nickName =[[DBSelfView alloc]initWithFrame:CGRectMake(0 ,CGRectGetMaxY(userImage.frame), ScreenWidth, 40) withTitle:@"昵称" withInfo:nil withUserEnble:YES];
-//    [self addSubview:nickName];
-//    
-//    //姓名
-//    UIView * realName =[[DBSelfView alloc]initWithFrame:CGRectMake(0 ,CGRectGetMaxY(nickName.frame), ScreenWidth, 40) withTitle:@"姓名" withInfo:nil withUserEnble:YES];
-//    [self addSubview:realName];
-//    
-//    
-//    
-//    //证件号
-//    UIView * cardNumberLabel =[[DBSelfView alloc]initWithFrame:CGRectMake(0 ,CGRectGetMaxY(realName.frame), ScreenWidth, 40) withTitle:@"证件号" withInfo:nil withUserEnble:YES];
-//    [self addSubview:cardNumberLabel];
-//    
-//    
-//    //手机号
-//    UIView * phoneNumberLabel =[[DBSelfView alloc]initWithFrame:CGRectMake(0 ,CGRectGetMaxY(cardNumberLabel.frame), ScreenWidth, 40) withTitle:@"手机号" withInfo:nil withUserEnble:YES];
-//    [self addSubview:phoneNumberLabel];
-//    
-//    
-//    //邮箱
-//    UIView * emailLabel =[[DBSelfView alloc]initWithFrame:CGRectMake(0 ,CGRectGetMaxY(phoneNumberLabel.frame), ScreenWidth, 40) withTitle:@"邮箱" withInfo:nil withUserEnble:YES];
-//    [self addSubview:emailLabel];
-//    
-//    
-//    //修改密码
-//    UIView * lineView1 = [[UIView alloc]initWithFrame:CGRectMake(0,  CGRectGetMaxY(emailLabel.frame)+19.5 , ScreenWidth, 0.5)];
-//    lineView1.backgroundColor  =  [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
-//    [self addSubview:lineView1];
-//    
-//    
-//    UIView * changePwBt = [[DBSelfView alloc]initWithFrame:CGRectMake(0 , CGRectGetMaxY(emailLabel.frame)+20, ScreenWidth  , 40)withTitle:@"修改密码" withInfo:nil withUserEnble:YES];
-//    [self addSubview:changePwBt];
-//    
     //注销
     UIButton * alipayBt = [UIButton buttonWithType:UIButtonTypeCustom];
-    alipayBt.frame = CGRectMake( 50 , CGRectGetMaxY(phoneNumber.frame)+40 ,ScreenWidth - 100  , 30 );
+    alipayBt.frame = CGRectMake( 50 , CGRectGetMaxY(versionLabel.frame)+40 ,ScreenWidth - 100  , 30 );
     [alipayBt setTitle:@"退出" forState:UIControlStateNormal];
     [alipayBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     alipayBt.titleLabel.font = [UIFont systemFontOfSize:14 ];

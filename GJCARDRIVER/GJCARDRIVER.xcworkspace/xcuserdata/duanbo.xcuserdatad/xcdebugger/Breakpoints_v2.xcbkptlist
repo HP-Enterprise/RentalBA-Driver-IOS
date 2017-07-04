@@ -17,38 +17,6 @@
             endingLineNumber = "185"
             landmarkName = "-removePickView"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[DBDoorBackRecord removePickView]"
-                  moduleName = "GJCARDRIVER"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/duanbo/Desktop/GJDriver.git/GJCARDRIVER/GJCARDRIVER/ViewControllers/BackRecord/DBDoorBackRecord.m"
-                  timestampString = "517461904.88436"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "186"
-                  endingLineNumber = "186"
-                  offsetFromSymbolStart = "60">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__34-[DBDoorBackRecord removePickView]_block_invoke"
-                  moduleName = "GJCARDRIVER"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/duanbo/Desktop/GJDriver.git/GJCARDRIVER/GJCARDRIVER/ViewControllers/BackRecord/DBDoorBackRecord.m"
-                  timestampString = "517461904.886019"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "188"
-                  endingLineNumber = "188"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

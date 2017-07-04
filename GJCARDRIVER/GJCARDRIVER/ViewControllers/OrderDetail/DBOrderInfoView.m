@@ -120,10 +120,24 @@
     if ([[NSString stringWithFormat:@"%@",[self.orderDIc objectForKey:@"tripType"]]isEqualToString:@"4"]) {
         orderStatus.text = @"订单类型 : 送火车";
     }
+    if ([self.model.orderType isEqualToString:@"2"]) {
+        
+        
+        if ([self.model.taskType isEqualToString:@"1"]) {
+            
+            orderStatus.text = @"订单类型 : 门到门-送车";
+        }
+        else if ([self.model.taskType isEqualToString:@"2"]){
+            orderStatus.text = @"订单类型 : 门到门-取车";
+        }
+        
+    }
+
+    
     orderStatus.font = [UIFont systemFontOfSize:12];
     [_detailScrollView addSubview:orderStatus];
     
-    
+
     
     //横线
     UIView * orderlineView = [[UIView alloc]initWithFrame:CGRectMake( 0, CGRectGetMaxY(orderLabel.frame)-0.5 , ScreenWidth, 0.5)];
@@ -268,7 +282,7 @@
 
     
     
-    //车辆总费用
+    //用车人姓名
     UILabel * carCostTotal = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth  / 3 , carCostLabel.frame.origin.y, ScreenWidth / 3 - 20, carCostLabel.frame.size.height)];
     
     carCostTotal.textAlignment = 0;
@@ -287,7 +301,7 @@
     
     
     
-    //费用合计
+    //用车人电话
     UILabel * totleCostLabel = [[UILabel alloc]initWithFrame:CGRectMake(carCostLabel.frame.origin.x, CGRectGetMaxY(carCostLabel.frame), ScreenWidth / 3 - 40 , 35)];
     
     totleCostLabel.text = @"用车人电话";
@@ -306,7 +320,7 @@
 //    [_detailScrollView addSubview:lineView7];
     
     
-    //费用合计
+    
     UILabel * totleCost = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth / 3 , totleCostLabel.frame.origin.y, ScreenWidth / 3 - 20,  carCostLabel.frame.size.height)];
     
     totleCost.text =[self.orderDIc objectForKey:@"passengerPhone"];
@@ -367,9 +381,7 @@
     
     [_detailScrollView addSubview:lineView21];
 
-    
-    
-    
+
     //可选服务 预定信息
     UIView *  userInfo1 = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(lineView21.frame), ScreenWidth, 35)];
     userInfo1.backgroundColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1];
@@ -405,7 +417,7 @@
     UILabel * carCostTotal2 = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth / 3 , carCostLabel2.frame.origin.y, ScreenWidth  * 2/ 3 - 20, carCostLabel.frame.size.height)];
     
     carCostTotal2.textAlignment = 0;
-    carCostTotal2.text = [self.orderDIc objectForKey:@"takeCarCity"];
+    carCostTotal2.text = [self.orderDIc objectForKey:@"takeCarCityName"];
     carCostTotal2.font = [ UIFont systemFontOfSize:12];
     
     carCostTotal2.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
@@ -654,7 +666,14 @@
     [showCarBt addTarget:self action:@selector(cancelBt:) forControlEvents:UIControlEventTouchUpInside];
     [_detailScrollView addSubview:showCarBt];
     
-    if ([self.model.orderType isEqualToString:@"3"]) {
+    
+    
+    
+
+    
+
+    //
+    if ([self.model.orderType isEqualToString:@"3"] || [self.model.orderType isEqualToString:@"2"]) {
         
         carCostLabel3.text = @"用车时间";
         carCostTotal3.text = [startdate substringWithRange:NSMakeRange(0,17 )];
@@ -668,6 +687,32 @@
         carCostTotal5.text = [NSString stringWithFormat:@"%@",[self.orderDIc objectForKey:@"returnCarAddress"]];
 
         
+        //门到门数据结构不同，需单独赋值
+        if ([self.model.orderType isEqualToString:@"2"]) {
+            carCostTotal.text = [[self.orderDIc objectForKey:@"userShow"]objectForKey:@"realName"];
+            totleCost.text = [[self.orderDIc objectForKey:@"userShow"]objectForKey:@"phone"];
+            
+            
+            if ([self.model.taskType isEqualToString:@"1"]) {
+                
+                carCostLabel4.text = @"取车地址";
+                carCostLabel5.text = @"送车地址";
+                
+                carCostTotal4.text =[NSString stringWithFormat:@"%@",self.model.callOutStoreAddress];
+                carCostTotal5.text =[NSString stringWithFormat:@"%@",self.model.customerAddress];
+            }
+            else if ([self.model.taskType isEqualToString:@"2"]){
+                
+                carCostLabel4.text = @"取车地址";
+                carCostLabel5.text = @"送车地址";
+                
+                carCostTotal4.text = [NSString stringWithFormat:@"%@",self.model.customerAddress];
+                carCostTotal5.text = [NSString stringWithFormat:@"%@",self.model.callInStoreAddress];
+            }
+            
+        }
+
+        
         carCostLabel6.text = @"预估里程";
         if ([[self.orderDIc allKeys]containsObject:@"outsideDistance"]) {
             
@@ -678,12 +723,10 @@
             else{
                 carCostTotal6.text = [NSString stringWithFormat:@"%@公里",[self.orderDIc objectForKey:@"outsideDistance"]];
             }
-            
         }
         else{
             carCostTotal6.text = @"0公里";
         }
-        
         carCostLabel7.hidden = YES ;
         carCostTotal7.hidden = YES ;
         lineView27.hidden = YES ;

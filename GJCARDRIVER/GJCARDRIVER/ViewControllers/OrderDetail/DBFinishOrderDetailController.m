@@ -9,6 +9,9 @@
 #import "DBFinishOrderDetailController.h"
 #import "DBFinishOrderDetailView.h"
 
+//门到门订单
+#import "DBDoorOrderVIew.h"
+
 @interface DBFinishOrderDetailController ()<UIScrollViewDelegate>
 
 @property (nonatomic,strong)UIScrollView * detailScrollView ;
@@ -88,9 +91,21 @@
     
     [self setScrollView];
     
-    DBFinishOrderDetailView * detailView = [[DBFinishOrderDetailView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 396) withData:self.dataDic withOder:self.model.orderCode withModel:self.model];
     
-    [_detailScrollView addSubview:detailView];
+    if ([self.model.orderType isEqualToString:@"2"]) {
+        
+        DBDoorOrderVIew * doorView = [[DBDoorOrderVIew alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 276) withData:self.dataDic withOder:self.model.orderCode withModel:self.model];
+        [_detailScrollView addSubview:doorView];
+        
+    }
+    else{
+        
+        DBFinishOrderDetailView * detailView = [[DBFinishOrderDetailView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 396) withData:self.dataDic withOder:self.model.orderCode withModel:self.model];
+        [_detailScrollView addSubview:detailView];
+    }
+    
+    
+ 
     
 }
 
@@ -103,6 +118,11 @@
     _detailScrollView.delegate =self ;
     [self.view addSubview:_detailScrollView ];
     
+    if ([self.model.orderType isEqualToString:@"2"]) {
+        
+        _detailScrollView.frame = CGRectMake(0, 64, ScreenWidth, 276);
+    }
+
 }
 
 
