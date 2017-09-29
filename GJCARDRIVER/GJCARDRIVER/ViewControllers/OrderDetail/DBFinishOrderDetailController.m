@@ -88,25 +88,19 @@
 
 -(void)setUI{
 
-    
     [self setScrollView];
-    
-    
     if ([self.model.orderType isEqualToString:@"2"]) {
-        
         DBDoorOrderVIew * doorView = [[DBDoorOrderVIew alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 276) withData:self.dataDic withOder:self.model.orderCode withModel:self.model];
         [_detailScrollView addSubview:doorView];
-        
+    }
+    else if([self.model.orderType isEqualToString:@"4"]) {
+        DBFinishOrderDetailView * detailView = [[DBFinishOrderDetailView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 366) withData:self.dataDic withOder:self.model.orderCode withModel:self.model];
+        [_detailScrollView addSubview:detailView];
     }
     else{
-        
         DBFinishOrderDetailView * detailView = [[DBFinishOrderDetailView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 396) withData:self.dataDic withOder:self.model.orderCode withModel:self.model];
         [_detailScrollView addSubview:detailView];
     }
-    
-    
- 
-    
 }
 
 -(void)setScrollView{
@@ -122,7 +116,9 @@
         
         _detailScrollView.frame = CGRectMake(0, 64, ScreenWidth, 276);
     }
-
+    else if([self.model.orderType isEqualToString:@"4"]) {
+        _detailScrollView.frame = CGRectMake(0, 64, ScreenWidth, 366);
+    }
 }
 
 

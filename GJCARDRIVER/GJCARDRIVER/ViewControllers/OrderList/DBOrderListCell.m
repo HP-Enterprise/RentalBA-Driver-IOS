@@ -31,7 +31,7 @@
             [self setWorkingBottomBt];
         }
         else if ([reuseIdentifier isEqualToString:@"finishWorkCell"]){
-            
+//            [self setFinishBottomBt];
         }
     }
     return self;
@@ -176,9 +176,8 @@
     
     
     _refuseBt = [UIButton buttonWithType:UIButtonTypeCustom];
-    _refuseBt.frame = CGRectMake(CGRectGetMaxX(_acceptBt.frame)+10, _acceptBt.frame.origin.y, 45, 30);
-    
-    [_refuseBt setAttrubutwithTitle:@"下车" TitleColor:[UIColor whiteColor] BackColor:[UIColor colorWithRed:0.45 green:0.78 blue:0.11 alpha:1] Font:12 CornerRadius:3 BorderWidth:0 BorderColor:nil];
+    _refuseBt.frame = CGRectMake(ScreenWidth - 60, CGRectGetMaxY(_acceptBt.frame)+ 17, 45, 30);
+    [_refuseBt setAttrubutwithTitle:@"路单" TitleColor:[UIColor whiteColor] BackColor:[UIColor colorWithRed:0.45 green:0.78 blue:0.11 alpha:1] Font:12 CornerRadius:3 BorderWidth:0 BorderColor:nil];
        [self addSubview:_refuseBt];
     
     //164
@@ -191,6 +190,34 @@
 //    [self addSubview:lastLine];
 }
 
+-(void)setFinishBottomBt{
+    // 底部接受/拒绝按钮
+//    _acceptBt = [UIButton buttonWithType:UIButtonTypeCustom];
+//    _acceptBt.frame = CGRectMake(ScreenWidth - 60, _orderNumber.frame.origin.y + 17 , 45, 30);
+//    
+//    [_acceptBt setAttrubutwithTitle:@"提车" TitleColor:[UIColor whiteColor] BackColor:[UIColor colorWithRed:0.45 green:0.78 blue:0.11 alpha:1] Font:12 CornerRadius:3 BorderWidth:0 BorderColor:nil];
+//    [self addSubview:_acceptBt];
+//    
+//    
+    _refuseBt = [UIButton buttonWithType:UIButtonTypeCustom];
+    _refuseBt.frame = CGRectMake(ScreenWidth - 60, _orderNumber.frame.origin.y + 35, 45, 30);
+    [_refuseBt setAttrubutwithTitle:@"路单" TitleColor:[UIColor whiteColor] BackColor:BascColor Font:12 CornerRadius:3 BorderWidth:0 BorderColor:nil];
+    [self addSubview:_refuseBt];
+    
+    //164
+    DBLog(@"%f",CGRectGetMaxY(_endAddress.frame));
+    
+    //底部横线
+    UIView * lastLine = [[UIView alloc]initWithFrame:CGRectMake(0,170.5, ScreenWidth,0.5)];
+    
+    lastLine.backgroundColor = [UIColor colorWithRed:0.62 green:0.62 blue:0.63 alpha:1];
+    //    [self addSubview:lastLine];
+}
+
+
+
+
+
 -(void)setShowMoreBt{
     
     UIImageView * showMore = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth - 30, 20, 6, 11)];
@@ -201,6 +228,8 @@
 
 -(void)waitWorkConfig:(DBWaitWorkModel*)model{
     
+    
+    //orderType  订单类型，1=短租自驾；2=门到门服务；3=短租代驾; 4=接送机
     
     
     NSString * startdate = [DBcommonUtils timeWithTimeIntervalString:model.expectStartTime];
@@ -338,6 +367,7 @@
     self.model = model ;
     
     
+    
     _mileageLabel.frame = CGRectMake(ScreenWidth /2 , CGRectGetMaxY(headView.frame), ScreenWidth/2 - 15, 30);
     
     CGFloat  width  = ScreenWidth/ 3;
@@ -345,7 +375,7 @@
      carLine.frame = CGRectMake( CGRectGetMaxX(_startAddress.frame), _startAddress.frame.origin.y + 20, width - 30, 0.5);
     _endAddress.frame =CGRectMake(CGRectGetMaxX(carLine.frame)+5, _startAddress.frame.origin.y, width , 40);
     _carName.frame = CGRectMake(CGRectGetMaxX(_startAddress.frame) , _startAddress.frame.origin.y - 5, width - 30  , 25);
-
+//
 
 
 //    _acceptBt = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -354,7 +384,6 @@
 //    [_acceptBt setAttrubutwithTitle:@"" TitleColor:[UIColor whiteColor] BackColor:[UIColor colorWithRed:0.45 green:0.78 blue:0.11 alpha:1] Font:12 CornerRadius:3 BorderWidth:0 BorderColor:nil];
 //    [self addSubview:_acceptBt];
 
-    
 }
 
 

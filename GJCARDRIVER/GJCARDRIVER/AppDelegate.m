@@ -14,8 +14,9 @@
 //测试
 #import "DBOrderInfoViewController.h"
 #import "DBGetCarViewController.h"
-
-
+#import "DBGetViewController.h"
+#import "DBAddInfoViewController.h"
+#import "DBRoadOrderViewController.h"
 // 引入JPush功能所需头文件
 #import "JPUSHService.h"
 // iOS10注册APNs所需头文件
@@ -74,6 +75,13 @@
     
 //    //注册首页
     DBLogInController * logIn = [[DBLogInController alloc]init];
+    
+    //路单填写
+//    DBAddInfoViewController * logIn = [[DBAddInfoViewController alloc]init];
+    
+//    录单列表
+//    DBRoadOrderViewController * logIn =[[DBRoadOrderViewController alloc]init];
+    
     UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:logIn];
     nav.navigationBarHidden = YES ;
 
@@ -93,7 +101,8 @@
 //    DBGetCarViewController * car =[[DBGetCarViewController alloc]init];
 //    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:car];
     
-    
+//    DBGetViewController * get = [[DBGetViewController alloc]init];
+//    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:get];
     
     self.window.rootViewController  = nav ;
     
@@ -174,7 +183,6 @@
 
 -(void)setJPushOptions:(NSDictionary *)launchOptions{
     
-    
 //    if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
 //#ifdef NSFoundationVersionNumber_iOS_9_x_Max
 //        JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
@@ -199,7 +207,6 @@
     // init Push
     // notice: 2.1.5版本的SDK新增的注册方法，改成可上报IDFA，如果没有使用IDFA直接传nil
     // 如需继续使用pushConfig.plist文件声明appKey等配置内容，请依旧使用[JPUSHService setupWithOption:launchOptions]方式初始化。
-  
     //6f93f92777938b23e5bcba49
     [JPUSHService setupWithOption:launchOptions appKey:@"4056475cb550c79f2f30d95b"
                           channel:@"App Store"
@@ -209,7 +216,6 @@
     
     //2.1.9版本新增获取registration id block接口。
     [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
-        
         if(resCode == 0){
             NSLog(@"registrationID获取成功：%@",registrationID);
             
@@ -320,10 +326,6 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     // iOS 10 以下 Required
     [JPUSHService handleRemoteNotification:userInfo];
     
-    
-    
-    
-    
 }
 
 
@@ -361,29 +363,22 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
-- (UIViewController *)getCurrentVC:(NSDictionary*)dic
-{
+- (UIViewController *)getCurrentVC:(NSDictionary*)dic{
+    
     NSString * message = [[dic objectForKey:@"aps"]objectForKey:@"alert"];
-    
     UIViewController *result = nil;
-    
     UIWindow * window = [[UIApplication sharedApplication] keyWindow];
-    if (window.windowLevel != UIWindowLevelNormal)
-    {
+    if (window.windowLevel != UIWindowLevelNormal){
         NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(UIWindow * tmpWin in windows)
-        {
-            if (tmpWin.windowLevel == UIWindowLevelNormal)
-            {
+        for(UIWindow * tmpWin in windows){
+            if (tmpWin.windowLevel == UIWindowLevelNormal) {
                 window = tmpWin;
                 break;
             }
         }
     }
-    
     UIView *frontView = [[window subviews] objectAtIndex:0];
     id nextResponder = [frontView nextResponder];
-    
     if ([nextResponder isKindOfClass:[UIViewController class]]){
         result = nextResponder;
         NSLog(@"当前控制器%@",result);
@@ -392,21 +387,16 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
         result = window.rootViewController;
     }
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"收到新的推送" message:message preferredStyle:UIAlertControllerStyleAlert];
-    
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [[NSNotificationCenter defaultCenter]postNotificationName:@"reloadOrder" object:nil];
-        
     }];
     [alertController addAction:cancelAction];
     [alertController addAction:okAction];
-    
-    
     [result presentViewController:alertController animated:YES completion:nil];
     
     NSLog(@"%@",result);
     return result;
-
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -417,16 +407,13 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    [application setApplicationIconBadgeNumber:0];
     
-    
-    if([CLLocationManager significantLocationChangeMonitoringAvailable])
-    {
+    if([CLLocationManager significantLocationChangeMonitoringAvailable]) {
         [self.location startMonitoringSignificantLocationChanges];
         [self.location stopUpdatingLocation];
     }
-    else
-    {
+    else {
         DBLog(@"significant Location Change not Available");
     }
     
@@ -439,14 +426,11 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     [application cancelAllLocalNotifications];
 
     [[NSNotificationCenter defaultCenter]postNotificationName:@"reloadOrder" object:nil];
-    if([CLLocationManager significantLocationChangeMonitoringAvailable])
-    {
+    if([CLLocationManager significantLocationChangeMonitoringAvailable]){
         
         [_location stopMonitoringSignificantLocationChanges];
-        
     }
-    else
-    {
+    else {
         DBLog(@"significant Location Change not Available");
     }
     

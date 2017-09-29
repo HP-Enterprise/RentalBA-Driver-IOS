@@ -50,23 +50,17 @@
 
 -(void)loadData{
     
-    
     [DBNewtWorkData orderIdGet:nil parameters:self.model success:^(id responseObject) {
-    
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
             
             self.orderInfoDic = [NSDictionary dictionaryWithDictionary:[responseObject objectForKey:@"message"]];
-            
-            
             [self setUI];
-
         }
-        
         NSLog(@"%@",responseObject);
-        
-
+        [self tipShow:@"没有相关数据"];
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
+        [self tipShow:@"连接失败"];
     }];
 }
 
@@ -76,7 +70,6 @@
     
     self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.97 blue:0.97 alpha:1];
     [self setNavigation];
-    
     
     [self setDatePicker];
     
@@ -93,11 +86,8 @@
     else{
         self.title = @"还车信息";
         self.navigationController.navigationBar.barTintColor = BascColor ;
-
     }
-    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self leftBarButtonItem]];
-    
     
 }
 
@@ -116,20 +106,27 @@
 
 -(void)setUI{
     
+    NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"YYYY/MM/dd HH:mm"];
+    NSString *  dateString = [formatter stringFromDate:[NSDate date]];
+    NSLog(@"%@",dateString);
+    
+    
+    self.startDate = [NSDate date];
 
     _startBt = [UIButton buttonWithType:UIButtonTypeCustom];
     _oilBt = [UIButton buttonWithType:UIButtonTypeCustom];
     
     if ([self.index isEqualToString:@"提车"]){
         
-        _carInfoLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 70, ScreenWidth, 30)];
+        _carInfoLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 70, ScreenWidth, 30)];
         
         [_carInfoLabel setAttrubutwithText:[NSString stringWithFormat:@"车牌号 ：%@",[self.infoddic objectForKey:@"plate"]] withFont:12 withBackColor:nil withTextColor:[UIColor blackColor]  withTextAlignment:0];
         [self.view addSubview:_carInfoLabel];
 
         
         _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0,100, ScreenWidth, 40) withTitle:@"提车时间"];
-        [_startBt setAttrubutwithTitle:@"请选择提车时间" withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
+        [_startBt setAttrubutwithTitle:dateString withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
         
         _startOil = [[DBTextField alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_startTime.frame)+10, ScreenWidth, 40) withTitle:@"提车油量"];
         
@@ -141,13 +138,12 @@
         _startMileage.field.placeholder =  @"请输入提车里程";
 //        _startMileage.field.placeholder = [NSString stringWithFormat:@"当前里程%@公里",[self.infoddic objectForKey:@"mileage"]];
 
-
     }
     
     else{
         
         _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0, 70, ScreenWidth, 40) withTitle:@"还车时间"];
-        [_startBt setAttrubutwithTitle:@"请选择还车时间" withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
+        [_startBt setAttrubutwithTitle:dateString withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
         
         _startOil = [[DBTextField alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_startTime.frame)+10, ScreenWidth, 40) withTitle:@"还车油量"];
         
@@ -156,15 +152,11 @@
         _startMileage = [[DBTextField alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_startOil.frame)+10, ScreenWidth, 40) withTitle:@"还车里程"];
         _startMileage.field.placeholder = @"请输入还车里程";
 
-
     }
 
     
     [_startTime.field removeFromSuperview];
-    
     _startBt.frame = _startTime.field.frame ;
-
-
 
     
        //    _startTime.field.placeholder = @"2016/01/08 10:00";
@@ -217,15 +209,12 @@
     
     if ([self.index isEqualToString:@"提车"]) {
         
-        [_startBt setAttrubutwithTitle:@"请选择提车时间" withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
-        
+        [_startBt setAttrubutwithTitle:dateString withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
     }
     
     else{
-        [_startBt setAttrubutwithTitle:@"请选择还车时间" withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
+        [_startBt setAttrubutwithTitle:dateString withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
     }
-    
-
 
 }
 
@@ -285,24 +274,20 @@
     [self.view addSubview:_oilPickerView];
     
     __weak typeof(self)weak_self = self ;
-    _oilPickerView.chooseBlock = ^(NSString * chooseOil)
-    {
+    _oilPickerView.chooseBlock = ^(NSString * chooseOil){
         [weak_self.oilBt setTitle:chooseOil forState:UIControlStateNormal];
         [weak_self removeOilPickView];
     };
-    _oilPickerView.cancelBlcok =  ^()
-    {
+    _oilPickerView.cancelBlcok =  ^(){
         [weak_self removeOilPickView];
     };
-    
-    
 }
 
 -(void)showOilPickView{
+    
     [self removePickView];
     [self.view endEditing:YES];
     [UIView animateWithDuration:0.5 animations:^{
-        
         CGRect newFrame = _oilPickerView.frame ;
         newFrame.origin.y = ScreenHeight - 230 ;
         _oilPickerView.frame = newFrame;
@@ -322,12 +307,9 @@
     } completion:^(BOOL finished) {
         
     }];
-    
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
-    
-    
     
     [self removeOilPickView];
     [self removePickView];
@@ -339,13 +321,9 @@
 
 -(void)submitRecord{
     
-
     [self.tipView removeFromSuperview];
     DBLog(@"上车回执单提交");
     NSTimeInterval dataInterval;
-    
-    
-    
     if (self.startDate) {
         dataInterval=[self.startDate timeIntervalSince1970]*1000;
         
@@ -360,7 +338,6 @@
         }
     }
     else{
-        
         [self tipShow:@"请完善信息"];
         return ;
     }
@@ -371,42 +348,32 @@
     }
     
     if ([self.index isEqualToString:@"提车"]){
-        if ([_startMileage.field.text integerValue] <= [[self.infoddic objectForKey:@"mileage"]integerValue])
-        {
+        if ([_startMileage.field.text integerValue] <= [[self.infoddic objectForKey:@"mileage"]integerValue]){
             [self tipShow:[NSString stringWithFormat:@"提车里程数应大于%@",[self.infoddic objectForKey:@"mileage"]]];
             return ;
         }
-
     }
     else{
-        if ([_startMileage.field.text integerValue] <= [[self.orderInfoDic objectForKey:@"clientDownMileage"]integerValue])
-        {
+        if ([_startMileage.field.text integerValue] <= [[self.orderInfoDic objectForKey:@"clientDownMileage"]integerValue]){
             [self tipShow:[NSString stringWithFormat:@"还车里程数应大于%@",[self.orderInfoDic objectForKey:@"clientDownMileage"]]];
             return ;
         }
     }
-      if ([_oilBt.titleLabel.text isEqualToString:@"请选择提车油量"]|| [_oilBt.titleLabel.text isEqualToString:@"请选择还车油量"]){
+    if ([_oilBt.titleLabel.text isEqualToString:@"请选择提车油量"]|| [_oilBt.titleLabel.text isEqualToString:@"请选择还车油量"]){
         [self tipShow:@"请完善信息"];
         return ;
     }
-
-
     DBNewtWorkData * netData = [[DBNewtWorkData alloc]init];
 //    NSLog(@"回执单  %0.f    %ld",dataInterval,[[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"takeCarActualDate"]]integerValue]);
-//    
-
-    
 
     if ([self.index isEqualToString:@"提车"]) {
         _infoDic[@"modelId"] = [self.infoddic objectForKey:@"modelId"];
         _infoDic[@"vehicleId"] = [[self.infoddic objectForKey:@"vehicleIdShow"]objectForKey:@"id"];
     }
-    
     _infoDic[@"realStartTime"] = [NSString stringWithFormat:@"%0.f",dataInterval];
     _infoDic[@"getOnMileage"] = _startMileage.field.text ;
     _infoDic[@"getOnFuel"] = _oilBt.titleLabel.text;
     _infoDic[@"orderCode"] = _model.orderCode;
-    
     
     NSString * type ;
     if ([self.model.orderType isEqualToString:@"3"]) {
@@ -416,12 +383,10 @@
         type = @"airContract";
     }
 
-    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
-    
     
     if ([self.index isEqualToString:@"提车"]) {
         [DBNewtWorkData allocateCarUrl:type parameters:_infoDic success:^(id responseObject) {
@@ -444,20 +409,16 @@
         }];
     }
     else{
-        
         [DBNewtWorkData returnCarUrl:type parameters:_infoDic success:^(id responseObject) {
-            
             if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
                 [self tipShow:@"还车成功"];
                 self.returnCar();
                 for (UIViewController  * control in self.navigationController.viewControllers) {
                     
                     if ([control isKindOfClass:[DBOrderController class]]) {
-                      
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                             [self.navigationController popViewControllerAnimated:YES];
                         });
-                        
                     }
                 }
             }
@@ -468,9 +429,6 @@
             [self tipShow:@"连接失败"];
         }];
     }
-   
-    
-    
 }
 -(BOOL)judge:(NSTimeInterval)dataInterval{
     

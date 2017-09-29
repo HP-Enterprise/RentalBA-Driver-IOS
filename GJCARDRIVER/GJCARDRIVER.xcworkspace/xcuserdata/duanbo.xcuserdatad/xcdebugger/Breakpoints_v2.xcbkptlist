@@ -10,28 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GJCARDRIVER/ViewControllers/BackRecord/DBDoorBackRecord.m"
-            timestampString = "514297388.401408"
+            timestampString = "521706715.434528"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "-removePickView"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GJCARDRIVER/NetWorkData/DBNewtWorkData.m"
-            timestampString = "517461361.75717"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "380"
-            endingLineNumber = "380"
-            landmarkName = "-submitStartRecordPUT:parameters:with:"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
+            landmarkName = "-submitRecord"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

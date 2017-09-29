@@ -12,6 +12,7 @@
 
 #import "DBOrderController.h"
 
+
 @interface DBGetViewController ()
 
 
@@ -39,20 +40,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setBasicUI];
     
+    
+    [self setNavigation];
     [self loadData];
 }
 
 -(void)loadData{
-    
+
     
     [DBNewtWorkData orderIdGet:nil parameters:self.model success:^(id responseObject) {
         
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
             
             self.orderInfoDic = [NSDictionary dictionaryWithDictionary:[responseObject objectForKey:@"message"]];
-            [self setUI];
+            [self setBasicUI];
         }
         
         NSLog(@"%@",responseObject);
@@ -72,6 +74,14 @@
     [self setDatePicker];
     
     [self setPickerView];
+    
+    [self setUI];
+    if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"orderState"]]  isEqualToString:@"4"]) {
+        self.title = @"司机取车";
+    }
+    else{
+        self.title = @"门店提车" ;
+    }
 }
 
 
@@ -90,11 +100,11 @@
 //        self.navigationController.navigationBar.barTintColor = BascColor ;
 //        
 //    }
-    
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.barTintColor = BascColor ;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self leftBarButtonItem]];
-    
-    
 }
+
 
 //返回按钮
 -(UIButton*)leftBarButtonItem{
@@ -104,8 +114,8 @@
     [userButton addTarget:self action:@selector(BackBtClick) forControlEvents:UIControlEventTouchUpInside];
     return userButton ;
 }
+
 -(void)BackBtClick{
-    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -117,13 +127,12 @@
     
 //    if ([self.index isEqualToString:@"提车"]){
     
-        _carInfoLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 70, ScreenWidth, 30)];
-        
-        [_carInfoLabel setAttrubutwithText:[NSString stringWithFormat:@"车牌号 ：%@",[self.infoddic objectForKey:@"plate"]] withFont:12 withBackColor:nil withTextColor:[UIColor blackColor]  withTextAlignment:0];
+        _carInfoLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 70, ScreenWidth, 40)];
+    
+        [_carInfoLabel setAttrubutwithText:[NSString stringWithFormat:@"车牌号 ：%@",[[self.orderInfoDic objectForKey:@"vehicleShow"]objectForKey:@"plate"]] withFont:12 withBackColor:nil withTextColor:[UIColor blackColor]  withTextAlignment:0];
         [self.view addSubview:_carInfoLabel];
-        
-        
-        _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0,100, ScreenWidth, 40) withTitle:@"提车时间"];
+    
+        _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0,110, ScreenWidth, 40) withTitle:@"提车时间"];
         [_startBt setAttrubutwithTitle:@"请选择提车时间" withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
         
         _startOil = [[DBTextField alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_startTime.frame)+10, ScreenWidth, 40) withTitle:@"提车油量"];
@@ -131,12 +140,10 @@
         [_oilBt setAttrubutwithTitle:@"请选择提车油量" withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
         
         _startMileage = [[DBTextField alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_startOil.frame)+10, ScreenWidth, 40) withTitle:@"提车里程"];
-        
-        
+    
         _startMileage.field.placeholder =  @"请输入提车里程";
         //        _startMileage.field.placeholder = [NSString stringWithFormat:@"当前里程%@公里",[self.infoddic objectForKey:@"mileage"]];
-        
-        
+    
 //    }
     
 //    else{
@@ -392,17 +399,13 @@
     
     
     
-//    if ([self.index isEqualToString:@"提车"]) {
-        _infoDic[@"modelId"] = [self.infoddic objectForKey:@"modelId"];
-        _infoDic[@"vehicleId"] = [[self.infoddic objectForKey:@"vehicleIdShow"]objectForKey:@"id"];
-//    }
-    
+
     _infoDic[@"realStartTime"] = [NSString stringWithFormat:@"%0.f",dataInterval];
     _infoDic[@"getOnMileage"] = _startMileage.field.text ;
     _infoDic[@"getOnFuel"] = _oilBt.titleLabel.text;
+    _infoDic[@"id"] = self.model.id ;
     _infoDic[@"orderCode"] = _model.orderCode;
-    
-    
+    _infoDic[@"vehicleId"] = [self.orderInfoDic objectForKey:@"vehicleId"] ;
     NSString * type ;
     if ([self.model.orderType isEqualToString:@"3"]) {
         type = @"driverContract";
@@ -416,28 +419,32 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
-    
-    
-//    if ([self.index isEqualToString:@"提车"]) {
-        [DBNewtWorkData allocateCarUrl:type parameters:_infoDic success:^(id responseObject) {
-            if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
-                [self tipShow:@"提车成功"];
+    [netData submitStartRecordPUT:nil parameters:_infoDic with:nil];
+    netData.startRecordBlcok = ^(id message)
+    {
+        if (![message isKindOfClass:[NSError class]]) {
+            
+            if ([[[NSDictionary dictionaryWithDictionary:message]objectForKey:@"status"]isEqualToString:@"true"]) {
+              
+                [self tipShow:@"取车成功"];
+               
+//                if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"orderState"]]  isEqualToString:@"2"]) {
+//                    [self tipShow:@"取车成功"];
+//                }
+//                else{
+//                    [self tipShow:@"还车成功"];
+//                }
                 
-                for (UIViewController  * control in self.navigationController.viewControllers) {
-                    
-                    if ([control isKindOfClass:[DBOrderController class]]) {
-                        [self.navigationController popToViewController:control animated:YES];
-                    }
-                }
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
+                
             }
             else{
-                [self tipShow:[responseObject objectForKey:@"message"]];
+                [self tipShow:@"提交失败"];
             }
-            
-        } failure:^(NSError *error) {
-            [self tipShow:@"连接失败"];
-        }];
-//    }
+        }
+    };
 //    else{
 //        
 //        [DBNewtWorkData returnCarUrl:type parameters:_infoDic success:^(id responseObject) {
@@ -641,7 +648,6 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    self.navigationController.navigationBarHidden = NO;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

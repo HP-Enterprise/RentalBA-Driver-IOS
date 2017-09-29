@@ -31,6 +31,12 @@
     [self addSubview:self.waitWorkTable];
 }
 
+-(void)reloadData:(NSArray*)array{
+    self.infoDicArray = array ;
+    [self.waitWorkTable reloadData];
+    
+}
+
 -(UITableView*)waitWorkTable{
     if (!_waitWorkTable) {
         

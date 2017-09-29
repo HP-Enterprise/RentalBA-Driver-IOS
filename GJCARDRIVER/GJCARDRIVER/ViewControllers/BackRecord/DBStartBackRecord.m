@@ -119,45 +119,56 @@
 
     
     
+    NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"YYYY/MM/dd HH:mm"];
+    NSString *  dateString = [formatter stringFromDate:[NSDate date]];
+    NSLog(@"%@",dateString);
+    
+    
+    self.startDate = [NSDate date];
     NSUserDefaults * user = [ NSUserDefaults standardUserDefaults];
     [user objectForKey:@"userAddr"];
     
     
-
     
-    if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"tripType"]]isEqualToString:@"2"]) {
+    //1=短租自驾；2=门到门服务；3=短租代驾; 4=接送机 ordertype
+    
+    //
+    if ([[NSString stringWithFormat:@"%@",self.model.orderType] isEqualToString:@"4"]) {
         
-        _startAddress = [[DBTextField alloc]initWithFrame:CGRectMake(0, 74, ScreenWidth, 40) withTitle:@"上车地址"];
-        _startAddress.field.frame = CGRectMake(_startAddress.field.frame.origin.x, _startAddress.field.frame.origin.y, _startAddress.field.frame.size.width - 40, _startAddress.field.frame.size.height);
-        
-        _startAddress.field.placeholder = [NSString stringWithFormat:@"%@",[[user objectForKey:@"userAddr"] objectForKey:@"address"]];
-        [_startAddress.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
-        _startAddress.field.delegate = self ;
-        _startAddress.field.clearButtonMode = UITextFieldViewModeNever;
-        [_startAddress.field setValue:[UIFont systemFontOfSize:12] forKeyPath:@"_placeholderLabel.font"];
-        _startAddress.field.adjustsFontSizeToFitWidth = YES ;
-        _startAddress.field.text = [NSString stringWithFormat:@"%@",[[user objectForKey:@"userAddr"] objectForKey:@"address"]];
-        
-        
-        [self.view addSubview:_startAddress];
-        
-        UIButton * locationBt = [UIButton buttonWithType:UIButtonTypeCustom];
-        
-        locationBt.frame = CGRectMake(ScreenWidth  - 40 , 0, 30, 40);
-        [locationBt setImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
-        [locationBt addTarget:self action:@selector(changeLocation) forControlEvents:UIControlEventTouchUpInside];
-        [_startAddress addSubview:locationBt];
-        
+//        if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"tripType"]]isEqualToString:@"2"]) {
+            _startAddress = [[DBTextField alloc]initWithFrame:CGRectMake(0, 74, ScreenWidth, 40) withTitle:@"上车地址"];
+            _startAddress.field.frame = CGRectMake(_startAddress.field.frame.origin.x, _startAddress.field.frame.origin.y, _startAddress.field.frame.size.width - 40, _startAddress.field.frame.size.height);
+            
+            _startAddress.field.placeholder = [NSString stringWithFormat:@"%@",[[user objectForKey:@"userAddr"] objectForKey:@"address"]];
+            [_startAddress.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
+            _startAddress.field.delegate = self ;
+            _startAddress.field.clearButtonMode = UITextFieldViewModeNever;
+            [_startAddress.field setValue:[UIFont systemFontOfSize:12] forKeyPath:@"_placeholderLabel.font"];
+            _startAddress.field.adjustsFontSizeToFitWidth = YES ;
+            _startAddress.field.text = [NSString stringWithFormat:@"%@",[[user objectForKey:@"userAddr"] objectForKey:@"address"]];
+            
+            [self.view addSubview:_startAddress];
+            
+            UIButton * locationBt = [UIButton buttonWithType:UIButtonTypeCustom];
+            
+            locationBt.frame = CGRectMake(ScreenWidth  - 40 , 0, 30, 40);
+            [locationBt setImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
+            [locationBt addTarget:self action:@selector(changeLocation) forControlEvents:UIControlEventTouchUpInside];
+            [_startAddress addSubview:locationBt];
+
+//        }
+
     }
     
     
     if ([self.model.dispatchOrigin isEqualToString:@"1"]) {
         
-        if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"tripType"]]isEqualToString:@"2"]) {
+        if ([[NSString stringWithFormat:@"%@",self.model.orderType] isEqualToString:@"4"] && [[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"tripType"]]isEqualToString:@"2"]) {
             _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0, 124, ScreenWidth, 40) withTitle:@"取车时间"];
 
         }
-        else if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"tripType"]]isEqualToString:@"1"]){
+        else {
             _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0, 74, ScreenWidth, 40) withTitle:@"取车时间"];
 
         }
@@ -183,22 +194,21 @@
     
     else{
 
-        if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"tripType"]]isEqualToString:@"2"]) {
+        if ([[NSString stringWithFormat:@"%@",self.model.orderType] isEqualToString:@"4"]) {
             _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0, 124, ScreenWidth, 40) withTitle:@"上车时间"];
             
         }
-        else if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"tripType"]]isEqualToString:@"1"]){
+        else {
             _startTime = [[DBTextField alloc]initWithFrame:CGRectMake(0, 74, ScreenWidth, 40) withTitle:@"上车时间"];
             
         }
         
-        
-        
+    
         [_startTime.field removeFromSuperview];
         _startBt = [UIButton buttonWithType:UIButtonTypeCustom];
         _startBt.frame = _startTime.field.frame ;
 
-        [_startBt setAttrubutwithTitle:@"请选择上车时间" withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
+        [_startBt setAttrubutwithTitle:dateString withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
 
         _startOil = [[DBTextField alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_startTime.frame)+10, ScreenWidth, 40) withTitle:@"上车油量"];
         _oilBt = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -448,12 +458,10 @@
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         [self.navigationController popViewControllerAnimated:YES];
                     });
-                    
                 }
                 else{
                     [self tipShow:@"提交失败"];
                 }
-
             }
         }
     };
@@ -462,23 +470,18 @@
 }
 -(BOOL)judge:(NSTimeInterval)dataInterval{
     
-
     [self.tipView removeFromSuperview];
-    
     if (!self.orderInfoDic) {
         if ([[self.orderInfoDic objectForKey:@"takeCarFuel"]isKindOfClass:[NSNull class]]) {
             [self tipShow:@"数据加载失败"];
             [self loadData];
             return NO;
         }
-
     }
     
-   
     NSString * takeCarMileage =[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"takeCarMileage"]];
     NSString * takeDate ;
     NSDate  * date ;
-    
     
 //    if ([[self.orderInfoDic allKeys]containsObject:@"driverTakeCarMileage"]) {
 //        takeCarMileage =[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"driverTakeCarMileage"]];
@@ -486,21 +489,24 @@
 //    }
     
     if ([[self.orderInfoDic allKeys]containsObject:@"driverTakeCarDate"]){
-        takeDate = [NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"driverTakeCarDate"]] ;
         
-        date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"driverTakeCarDate"]]integerValue]/1000];
-
+        if (![[self.orderInfoDic objectForKey:@"driverTakeCarDate"]isKindOfClass:[NSNull class]]) {
+            takeDate = [NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"driverTakeCarDate"]] ;
+            
+            date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"driverTakeCarDate"]]integerValue]/1000];
+        }
     }
     else{
-        takeDate =  [NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"takeCarActualDate"]];
-        date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"takeCarActualDate"]]integerValue]/1000];
-
+        if (![[self.orderInfoDic objectForKey:@"takeCarActualDate"]isKindOfClass:[NSNull class]]){
+            takeDate =  [NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"takeCarActualDate"]];
+            date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"takeCarActualDate"]]integerValue]/1000];
+        }
     }
     
-    NSArray *array = [[self.orderInfoDic objectForKey:@"takeCarFuel"] componentsSeparatedByString:@"/"];
-    NSInteger takefuel = [[array firstObject]integerValue];
-    NSArray * nowFuelArray  = [self.oilBt.titleLabel.text componentsSeparatedByString:@"/"];
-    NSInteger nowFuel = [[nowFuelArray firstObject]integerValue];
+//    NSArray *array = [[self.orderInfoDic objectForKey:@"takeCarFuel"] componentsSeparatedByString:@"/"];
+//    NSInteger takefuel = [[array firstObject]integerValue];
+//    NSArray * nowFuelArray  = [self.oilBt.titleLabel.text componentsSeparatedByString:@"/"];
+//    NSInteger nowFuel = [[nowFuelArray firstObject]integerValue];
     
     if (!dataInterval) {
         [self tipShow:@"请完善信息"];

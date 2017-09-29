@@ -10,6 +10,12 @@
 #import "DBUserInfoManager.h"
 #import "DBUserInfoView.h"
 #import "DBNetManager.h"
+
+
+#import "DBDriverReturnCarViewController.h"
+
+
+
 @interface DBUserCentreController ()
 
 
@@ -36,7 +42,6 @@
 
 -(void)setBase{
     
-
     [self setUI];
     [self setNavigation];
 }
@@ -51,6 +56,7 @@
        NSForegroundColorAttributeName:[UIColor blackColor]}];
     //导航栏个人信息按钮
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self leftBarButtonItem]];
+   // self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self rightBarButtonItem]];
     
 }
 
@@ -63,6 +69,15 @@
     return userButton ;
 }
 
+//还车按钮
+-(UIButton*)rightBarButtonItem{
+    UIButton * userButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    userButton.frame = CGRectMake(ScreenWidth - 70, 8, 50, 28);
+    [userButton setAttrubutwithTitle:@"提还车" withTitleColor:[UIColor blackColor] withFont:14];
+    [userButton addTarget:self action:@selector(ReturnCar) forControlEvents:UIControlEventTouchUpInside];
+    return userButton ;
+}
+
 -(void)setUI{
     
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
@@ -70,21 +85,20 @@
     if ([user objectForKey:@"userInfo"]) {
         infoDic  = [user objectForKey:@"userInfo"] ;
     }
-    
     _userView = [[DBUserInfoView alloc]initWithFrame:CGRectMake(0, 64, ScreenWidth, ScreenHeight- 64) withDic:[DBUserInfoManager sharedManager].infoDic withModel:nil];
     [self.view addSubview:_userView];
 
-    
     __weak typeof(self)weak_self = self ;
     _userView.deletBtBlock = ^(){
-      
         [weak_self.navigationController popToRootViewControllerAnimated:YES];
     };
     
 //    [[DBUserInfoManager sharedManager]checkLogIn];
     //                [[NSNotificationCenter defaultCenter]postNotificationName:@"reset" object:nil];
-  
-
+}
+-(void)ReturnCar{
+    DBDriverReturnCarViewController * returncar = [[DBDriverReturnCarViewController alloc]init];
+    [self.navigationController pushViewController:returncar animated:YES];
 
 }
 

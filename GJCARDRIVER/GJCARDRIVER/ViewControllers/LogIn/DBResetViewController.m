@@ -50,6 +50,20 @@
     
     self.title = @"修改密码";
     self.navigationController.navigationBar.barTintColor = BascColor ;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self leftBarButtonItem]];
+
+}
+//返回按钮
+-(UIButton*)leftBarButtonItem{
+    UIButton * userButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    userButton.frame = CGRectMake(20, 8, 30, 28);
+    [userButton setAttrubutwithTitle:@"返回" withTitleColor:[UIColor blackColor] withFont:14];
+    [userButton addTarget:self action:@selector(BackBtClick) forControlEvents:UIControlEventTouchUpInside];
+    return userButton ;
+}
+
+-(void)BackBtClick{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)createUI

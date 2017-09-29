@@ -1,15 +1,15 @@
 //
-//  DBEndBackRecord.m
-//  GJCARDRIVER.COM
+//  DBReturnViewController.m
+//  GJCARDRIVER
 //
-//  Created by 段博 on 2016/11/11.
-//  Copyright © 2016年 DuanBo. All rights reserved.
+//  Created by 段博 on 2017/7/7.
+//  Copyright © 2017年 DuanBo. All rights reserved.
 //
 
+#import "DBReturnViewController.h"
 #import "DBEndBackRecord.h"
 #import "DBDatePickerView.h"
-@interface DBEndBackRecord ()<UITextFieldDelegate>
-
+@interface DBReturnViewController ()<UITextFieldDelegate>
 
 @property (nonatomic,strong)NSDate * startDate;
 @property (nonatomic,strong)UIButton * startBt ;
@@ -32,13 +32,15 @@
 
 @end
 
-@implementation DBEndBackRecord
+
+@implementation DBReturnViewController
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setBasicUI];
-    
+    [self setNavigation];
     [self loadData];
 }
 
@@ -48,7 +50,9 @@
     [DBNewtWorkData orderIdGet:nil parameters:self.model success:^(id responseObject) {
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
             self.orderInfoDic = [NSDictionary dictionaryWithDictionary:[responseObject objectForKey:@"message"]];
+            [self setBasicUI];
         }
+        
         NSLog(@"%@",responseObject);
         
     } failure:^(NSError *error) {
@@ -60,7 +64,7 @@
 -(void)setBasicUI{
     
     self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.97 blue:0.97 alpha:1];
-    [self setNavigation];
+    
     
     [self setUI];
     
@@ -69,19 +73,26 @@
     
     [self setPickerView];
     
-    _returnCar = NO ;
+    _returnCar = YES ;
     _infoDic = [NSMutableDictionary dictionary];
     
+    if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"orderState"]]  isEqualToString:@"3"]) {
+        self.title = @"客户取车";
+    }
+    else{
+        self.title = @"门店还车";
+    }
 }
 
 
 -(void)setNavigation{
-    self.title = @"下车回录单";
+    
+    self.title = @"还车";
+    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBar.barTintColor = BascColor ;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self leftBarButtonItem]];
-    
-    
 }
+
 
 //返回按钮
 -(UIButton*)leftBarButtonItem{
@@ -91,13 +102,13 @@
     [userButton addTarget:self action:@selector(BackBtClick) forControlEvents:UIControlEventTouchUpInside];
     return userButton ;
 }
+
 -(void)BackBtClick{
-    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)setUI{
-
+    
     [self.view addSubview:_endTime];
     
     /*
@@ -106,19 +117,11 @@
      
      */
     
-    NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"YYYY/MM/dd HH:mm"];
-    NSString *  dateString = [formatter stringFromDate:[NSDate date]];
-    NSLog(@"%@",dateString);
-    
-    
-    self.startDate = [NSDate date];
-    
     
     NSUserDefaults * user = [ NSUserDefaults standardUserDefaults];
     [user objectForKey:@"userAddr"];
-
-
+    
+    
     _endAddr = [[DBTextField alloc]initWithFrame:CGRectMake(0, 74, ScreenWidth, 40) withTitle:@"下车地址"];
     _endAddr.field.frame = CGRectMake(_endAddr.field.frame.origin.x, _endAddr.field.frame.origin.y, _endAddr.field.frame.size.width - 40, _endAddr.field.frame.size.height);
     
@@ -150,12 +153,12 @@
         [self.view addSubview:_endTime];
         [_endTime.field removeFromSuperview];
         _startBt = [UIButton buttonWithType:UIButtonTypeCustom];
-
+        
         [_startBt setAttrubutwithTitle:@"请选择送车时间" withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
         
         _endOil = [[DBTextField alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_endTime.frame)+10, ScreenWidth, 40) withTitle:@"送车油量"];
         _oilBt = [UIButton buttonWithType:UIButtonTypeCustom];
-
+        
         [_oilBt setAttrubutwithTitle:@"请选择送车油量" withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
         
         _endMileage = [[DBTextField alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_endOil.frame)+10, ScreenWidth, 40) withTitle:@"送车里程"];
@@ -170,10 +173,10 @@
         //    [_endTime.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
         //    [_endTime.field setValue:[UIFont systemFontOfSize:12] forKeyPath:@"_placeholderLabel.font"];
         [_endTime.field removeFromSuperview];
-         [self.view addSubview:_endTime];
+        [self.view addSubview:_endTime];
         _startBt = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_startBt setAttrubutwithTitle:dateString withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
-
+        [_startBt setAttrubutwithTitle:@"选择下车时间" withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
+        
         _oilBt = [UIButton buttonWithType:UIButtonTypeCustom];
         _endOil = [[DBTextField alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_endTime.frame)+10, ScreenWidth, 40) withTitle:@"下车油量"];
         [_oilBt setAttrubutwithTitle:@"请选择下车油量" withTitleColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] withFont:12];
@@ -182,59 +185,70 @@
         _endMileage.field.placeholder = @"请输入下车里程";
     }
     
-//    UIView * isReturnVview = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_endMileage.frame)+10, ScreenWidth, 40)];
-//    isReturnVview.backgroundColor = [UIColor whiteColor];
-//    [self.view addSubview:isReturnVview];
-//    
-//    UIView * topLine = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
-//    topLine.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.81 alpha:1];
-//    [isReturnVview addSubview:topLine];
-//    
-//    UIView * bottomLine = [[UIView alloc]initWithFrame:CGRectMake(0, 39.5, ScreenWidth, 0.5)];
-//    bottomLine.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.81 alpha:1];
-//    [isReturnVview addSubview:bottomLine];
-//    
-//    
-//    UILabel * isreturnLabel =[[UILabel alloc]initWithFrame:CGRectMake(15, 0, ScreenWidth / 2, 40)];
-//    [isreturnLabel setAttrubutwithText:@"是否还车" withFont:12 withBackColor:nil withTextColor:nil withTextAlignment:0];
-//    [isReturnVview addSubview:isreturnLabel];
-//    
-//
-////    选择开关
-//    UISwitch * invoiceSwitch = [[UISwitch alloc]initWithFrame:CGRectMake( ScreenWidth - 60 ,5, 51, 20)];
-//
-//    invoiceSwitch.transform = CGAffineTransformMakeScale(0.6, 0.6);
-//    invoiceSwitch.onTintColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
-//
-//    [isReturnVview addSubview:invoiceSwitch];
-//    [invoiceSwitch addTarget:self action:@selector(switchIsOn:) forControlEvents:UIControlEventValueChanged];
-//    [invoiceSwitch setOn:NO animated:YES] ;
+    UIView * isReturnVview = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_endMileage.frame)+10, ScreenWidth, 40)];
+    isReturnVview.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:isReturnVview];
+    
+    UIView * topLine = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
+    topLine.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.81 alpha:1];
+    [isReturnVview addSubview:topLine];
+    
+    UIView * bottomLine = [[UIView alloc]initWithFrame:CGRectMake(0, 39.5, ScreenWidth, 0.5)];
+    bottomLine.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.81 alpha:1];
+    [isReturnVview addSubview:bottomLine];
+    
+    
+    UILabel * isreturnLabel =[[UILabel alloc]initWithFrame:CGRectMake(15, 0, ScreenWidth / 2, 40)];
+    [isreturnLabel setAttrubutwithText:@"是否还车" withFont:12 withBackColor:nil withTextColor:nil withTextAlignment:0];
+    [isReturnVview addSubview:isreturnLabel];
+    
+    
+    //    选择开关
+    UISwitch * invoiceSwitch = [[UISwitch alloc]initWithFrame:CGRectMake( ScreenWidth - 60 ,5, 51, 20)];
+    
+    invoiceSwitch.transform = CGAffineTransformMakeScale(0.6, 0.6);
+    invoiceSwitch.onTintColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
+    
+    [isReturnVview addSubview:invoiceSwitch];
+    [invoiceSwitch addTarget:self action:@selector(switchIsOn:) forControlEvents:UIControlEventValueChanged];
+    [invoiceSwitch setOn:YES animated:NO] ;
+    
+    
+    
+    
+    
+    
     
     _startBt.frame = _endTime.field.frame ;
     
-      _startBt.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    _startBt.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [_startBt addTarget:self action:@selector(showPickView) forControlEvents:UIControlEventTouchUpInside];
     [_endTime addSubview:_startBt];
     
     _oilBt.frame = _endTime.field.frame ;
+    
+    
     _oilBt.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [_oilBt addTarget:self action:@selector(showOilPickView) forControlEvents:UIControlEventTouchUpInside];
     [_endOil addSubview:_oilBt];
+    
+    
+    
     
     //    [_startOil.field setValue:[UIFont systemFontOfSize:12] forKeyPath:@"_placeholderLabel.font"];
     [self.view addSubview:_endOil];
     
     [_endOil.field removeFromSuperview];
-//    _endOil.field.placeholder = @"1/16";
-//    [_endOil.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
-//    [_endOil.field setValue:[UIFont systemFontOfSize:12] forKeyPath:@"_placeholderLabel.font"];
-//    [self.view addSubview:_endOil];
-//    
+    //    _endOil.field.placeholder = @"1/16";
+    //    [_endOil.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
+    //    [_endOil.field setValue:[UIFont systemFontOfSize:12] forKeyPath:@"_placeholderLabel.font"];
+    //    [self.view addSubview:_endOil];
+    //
     
     [_endMileage.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     _endMileage.field.delegate = self ;
     _endMileage.field.textColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] ;
-
+    
     [_endMileage.field setValue:[UIFont systemFontOfSize:12] forKeyPath:@"_placeholderLabel.font"];
     [self.view addSubview:_endMileage];
     
@@ -246,11 +260,13 @@
     [_recipientName.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     _recipientName.field.delegate = self ;
     [_recipientName.field setValue:[UIFont systemFontOfSize:12] forKeyPath:@"_placeholderLabel.font"];
-   
+    
+    
+    
     
     //提交按钮
     UIButton * submitBt = [UIButton buttonWithType:UIButtonTypeCustom];
-    submitBt.frame = CGRectMake(50, CGRectGetMaxY(_endMileage.frame)+10+60, ScreenWidth - 100 , 35);
+    submitBt.frame = CGRectMake(50, CGRectGetMaxY(isReturnVview.frame)+60, ScreenWidth - 100 , 35);
     [submitBt setAttrubutwithTitle:@"提交" TitleColor:[UIColor whiteColor] BackColor:BascColor Font:14 CornerRadius:3 BorderWidth:0 BorderColor:nil];
     
     [submitBt addTarget:self action:@selector(submitRecord) forControlEvents:UIControlEventTouchUpInside];
@@ -261,20 +277,24 @@
         
         [self.view addSubview:_recipientName];
         submitBt.frame = CGRectMake(50, CGRectGetMaxY(_recipientName.frame)+60, ScreenWidth - 100 , 35);
+        
+        
     }
+    
+    
 }
 
-//-(void)switchIsOn:(UISwitch*)chooseSwitch{
-//    if (chooseSwitch.isOn) {
-//        _returnCar = YES ;
-//    }
-//    else{
-//        _returnCar = NO ;
-//    }
-//    
-//    DBLog(@"%d",chooseSwitch.isOn)
-//
-//}
+-(void)switchIsOn:(UISwitch*)chooseSwitch{
+    if (chooseSwitch.isOn) {
+        _returnCar = YES ;
+    }
+    else{
+        _returnCar = NO ;
+    }
+    
+    DBLog(@"%d",chooseSwitch.isOn)
+    
+}
 
 
 //定位点击了
@@ -282,7 +302,7 @@
     
     NSUserDefaults * user = [ NSUserDefaults standardUserDefaults];
     [user objectForKey:@"userAddr"];
-
+    
     _endAddr.field.text = [NSString stringWithFormat:@"%@",[[user objectForKey:@"userAddr"] objectForKey:@"address"]];
 }
 
@@ -317,7 +337,7 @@
         CGRect newFrame = _pickView.frame ;
         newFrame.origin.y = ScreenHeight - 230 ;
         _pickView.frame = newFrame;
-
+        
     } completion:^(BOOL finished) {
         
     }];
@@ -333,7 +353,7 @@
         
     } completion:^(BOOL finished) {
         
-     
+        
         
     }];
     
@@ -345,7 +365,7 @@
     NSArray * oilArray = @[@"1/16",@"2/16",@"3/16",@"4/16",@"5/16",@"6/16",@"7/16",@"8/16",@"9/16",@"10/16",@"11/16",@"12/16",@"13/16",@"14/16",@"15/16",@"16/16"];
     _oilPickerView = [[DBPickerView alloc]initWithFrame:CGRectMake( 0,  ScreenHeight, ScreenWidth, 230) withData:oilArray];
     [self.view addSubview:_oilPickerView];
-
+    
     __weak typeof(self)weak_self = self ;
     _oilPickerView.chooseBlock = ^(NSString * chooseOil)
     {
@@ -400,7 +420,7 @@
 }
 
 -(void)submitRecord{
-
+    
     [self.tipView removeFromSuperview];
     DBLog(@"下车回执单提交");
     NSTimeInterval dataInterval;
@@ -428,7 +448,7 @@
     NSUserDefaults * user = [ NSUserDefaults standardUserDefaults];
     [user objectForKey:@"userAddr"];
     
-
+    
     if (!_endAddr.field.text || [_endAddr.field.text isEqualToString:@""]){
         
         _endAddr.field.text = _endAddr.field.placeholder ;
@@ -443,10 +463,10 @@
     _infoDic[@"returnCar"] = [NSString stringWithFormat:@"%d",_returnCar] ;
     
     
-     if ([self.model.dispatchOrigin isEqualToString:@"1"]) {
-         _infoDic[@"recipientName"] = _recipientName.field.text;
-     }
-    
+    if ([self.model.dispatchOrigin isEqualToString:@"1"]) {
+        _infoDic[@"recipientName"] = _recipientName.field.text;
+        
+    }
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -455,21 +475,28 @@
     netData.endRecordBlcok = ^(id message)
     {
         if (![message isKindOfClass:[NSError class]]) {
-
+            
             if ([[[NSDictionary dictionaryWithDictionary:message]objectForKey:@"status"]isEqualToString:@"true"]) {
-                [self tipShow:@"下车提交成功"];
-
+                
+                if ([[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"orderState"]]  isEqualToString:@"3"]) {
+                     [self tipShow:@"客户取车成功"];
+                }
+                else{
+                   [self tipShow:@"还车成功"];
+                }
+                
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [self.navigationController popViewControllerAnimated:YES];
                 });
+                
             }
             else{
                 [self tipShow:@"提交失败"];
             }
         }
-
+        
     };
-
+    
 }
 
 -(BOOL)judge:(NSTimeInterval)dataInterval{
@@ -488,7 +515,7 @@
     
     NSString * clientUpMileage =[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"clientUpMileage"]];
     
-
+    
     NSArray *array = [[self.orderInfoDic objectForKey:@"clientUpFuel"] componentsSeparatedByString:@"/"];
     NSInteger takefuel = [[array firstObject]integerValue];
     
@@ -507,20 +534,20 @@
         [self tipShow:@"请完善信息"];
         return NO;
     }
-
+    
     else if (dataInterval <= [[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"clientUpCarDate"]]integerValue]){
-
+        
         NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
         [formatter setDateFormat:@"YYYY/MM/dd HH:mm"];
         NSDate  * date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@",[self.orderInfoDic objectForKey:@"clientUpCarDate"]]integerValue]/1000];
         NSString *  dateString = [formatter stringFromDate:date];
-
+        
         [self tipShow:[NSString stringWithFormat:@"时间不能早于%@",dateString]];
-
-         return NO;
+        
+        return NO;
         
     }
-
+    
     else if (!self.endMileage.field.text){
         [self tipShow:@"请填写正确里程"];
         
@@ -556,7 +583,7 @@
 
 //设置文本框只能输入数字
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-
+    
     NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string]; //得到输入框的内容
     
     if (textField == _endMileage.field) {
@@ -565,17 +592,17 @@
             return  NO ;
         }
         return [self validateNumber:string];
-
+        
     }
     if (textField == _endAddr.field) {
-
+        
     }
-   
+    
     return YES ;
 }
 
 - (BOOL)validateNumber:(NSString*)number {
-
+    
     BOOL res = YES;
     NSCharacterSet* tmpSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
     int i = 0;
@@ -607,6 +634,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 /*
 #pragma mark - Navigation

@@ -27,6 +27,10 @@
 #import "DBUserCentreController.h"
 //还车
 #import "DBReturnCarViewController.h"
+#import "DBDriverReturnCarViewController.h"
+
+#import "DBReturnViewController.h"
+#import "DBGetViewController.h"
 
 #import "DBFinishOrderDetailController.h"
 #import "DBOrderInfoViewController.h"
@@ -35,7 +39,11 @@
 
 //门到门
 #import "DBGetViewController.h"
+#import "DBReturnViewController.h"
 
+
+//路单
+#import "DBRoadOrderViewController.h"
 
 @interface DBOrderController ()<UIScrollViewDelegate,UITextViewDelegate>
 
@@ -96,7 +104,7 @@
 //界面 数据 基础设置
 -(void)basicSet{
     
-    
+//    self.automaticallyAdjustsScrollViewInsets = NO;
     
     self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.97 blue:0.97 alpha:1];
     [self.view addSubview:self.headerView];
@@ -105,6 +113,7 @@
     
     //导航栏个人信息按钮
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self leftBarButtonItem]];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self rightBarButtonItem]];
 
 }
 
@@ -114,15 +123,26 @@
     userButton.frame = CGRectMake(20, 12, 20, 20);
     [userButton setImage:[UIImage imageNamed:@"UserUmage"] forState:UIControlStateNormal];
     [userButton addTarget:self action:@selector(userInfoClick) forControlEvents:UIControlEventTouchUpInside];
+    
     return userButton ;
 }
+
+//还车按钮
+-(UIButton*)rightBarButtonItem{
+    UIButton * userButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    userButton.frame = CGRectMake(ScreenWidth - 70, 8, 50, 28);
+    [userButton setAttrubutwithTitle:@"提还车" withTitleColor:[UIColor blackColor] withFont:14];
+    [userButton addTarget:self action:@selector(ReturnCar) forControlEvents:UIControlEventTouchUpInside];
+    return userButton ;
+}
+
+
 
     
 -(void)userInfoClick{
     
     DBUserCentreController * user = [[DBUserCentreController alloc]init];
     [self.navigationController pushViewController:user animated:YES];
-    
 }
 
 
@@ -138,14 +158,21 @@
 //    waitDic[@"taskType"]= @"3" ;
     waitDic[@"driverId"]= userId ;
     waitDic[@"orderBy"] = @"2" ;
-    [weak_self addProgress];
+
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+  
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
     [DBNewtWorkData Get:nil parameters:waitDic success:^(id responseObject) {
-        [weak_self removeProgress];
-        
+      
         weak_self.waitWorkData = [NSArray arrayWithArray:responseObject];
         [weak_self performSelectorOnMainThread:@selector(waitWorkReload:) withObject:weak_self.waitWorkData waitUntilDone:YES];
     } failure:^(NSError *error) {
+       
+
+
         [weak_self removeProgress];
         DBLog(@"%@",error);
         
@@ -194,17 +221,13 @@
     
     [DBNewtWorkData Get:nil parameters:finishDic success:^(id responseObject) {
         
-
         weak_self.finishWorkData = [NSMutableArray arrayWithArray:responseObject];
-        
         NSArray * array = [NSMutableArray arrayWithArray:responseObject];
         
-        
+
         for ( int i = 0  ; i < weak_self.finishWorkData.count; i ++) {
             
             DBWaitWorkModel * dic = _finishWorkData[i];
-
-
             [ self parameters:dic success:^(id responseObject) {
                 
                 if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
@@ -212,19 +235,16 @@
                     if ([[NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"message"]objectForKey:@"orderState"]]isEqualToString:@"5"]) {
                         
                         [weak_self.workingData addObject:dic];
-                        [weak_self.finishWorkData removeObjectAtIndex:i];
+                        [weak_self.finishWorkData removeObject:dic];
                         
                         [weak_self performSelectorOnMainThread:@selector(finishWorkReload:) withObject:weak_self.finishWorkData waitUntilDone:YES];
                         [weak_self performSelectorOnMainThread:@selector(workingReload:) withObject:weak_self.workingData waitUntilDone:YES];
-  
                     }
-                    
                 }
 
             } failure:^(NSError *error) {
                 
             }];
-
         }
         
 
@@ -439,6 +459,17 @@
         end.model = [notification.object objectForKey:@"dic"] ;
         [self.navigationController pushViewController:end animated:YES];
     }
+    else if ([object isEqualToString:@"交车"]){
+        DBReturnViewController * end = [[DBReturnViewController alloc]init];
+        end.model = [notification.object objectForKey:@"dic"] ;
+        [self.navigationController pushViewController:end animated:YES];
+    }
+    else if ([object isEqualToString:@"取车"]){
+        DBGetViewController * end = [[DBGetViewController alloc]init];
+        end.model = [notification.object objectForKey:@"dic"] ;
+        [self.navigationController pushViewController:end animated:YES];
+    }
+
     else if ([object isEqualToString:@"还车"]){
         [self returnCar:notification];
         
@@ -451,7 +482,10 @@
 
         [self.navigationController pushViewController:detail animated:YES];
     }
-    
+    else if ([object isEqualToString:@"路单"]){
+        
+        [self getId:notification];
+    }
 
     DBLog(@"%@",notification);
 }
@@ -459,9 +493,10 @@
 
 
 #pragma mark --- 执行点击任务
+
 //执行订单
 -(void)getId:(NSNotification*)notification{
-
+  
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -501,6 +536,18 @@
                     start.vehicleId = [[responseObject objectForKey:@"message"]objectForKey:@"vehicleId"] ;
                     [weak_self.navigationController pushViewController:start animated:YES];
                 }
+                else if ([object isEqualToString:@"路单"]){
+                    if ([[NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"message"]objectForKey:@"orderState"] ]isEqualToString:@"2"]) {
+                        [weak_self tipShow:@"请先提车"];
+                        return ;
+                    }
+
+                    DBRoadOrderViewController * road = [[DBRoadOrderViewController alloc]init];
+                    road.contractInfo = [responseObject objectForKey:@"message"];
+                    road.orderModel = [notification.object objectForKey:@"dic"] ;
+                    [self.navigationController pushViewController:road animated:YES];
+
+                }
             }
             else{
                 [weak_self tipShow:@"请先生成合同"];
@@ -527,9 +574,6 @@
     returncar.returnCar =^{
       
         [self changeToThred];
-        
-        
-        
     };
     
     [self.navigationController pushViewController:returncar animated:YES];
@@ -725,6 +769,13 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"reloadOrder" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+}
+
+
+-(void)ReturnCar{
+    DBDriverReturnCarViewController * returncar = [[DBDriverReturnCarViewController alloc]init];
+    [self.navigationController pushViewController:returncar animated:YES];
+    
 }
 
 //键盘位置监控

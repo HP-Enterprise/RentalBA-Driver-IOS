@@ -321,6 +321,27 @@
     [mileageBackView addSubview:mileageBottomLine];
     
     
+    if([self.dataModel.orderType isEqualToString:@"4"]){
+        
+        mileageImage.frame = CGRectMake(20, 37, 16, 16) ;
+        mileageLabel.frame = CGRectMake(CGRectGetMaxX(mileageImage.frame)+10, 0, Foursize.width, 90) ;
+        mileagebottomLine.frame = CGRectMake(0, 89.5, self.frame.size.width,0.5);
+
+        
+        mileageBackView.frame = CGRectMake(0, CGRectGetMaxY(mileageView.frame), ScreenWidth, 90) ;
+        takemileage.hidden = YES ;
+        takemileageBottomLine.hidden = YES ;
+        takemileageLabel.hidden = YES ;
+        takemileageLine.hidden = YES ;
+        
+        startmileage.frame = CGRectMake(CGRectGetMaxX(OilLabel.frame)+20, 0, Foursize.width, 30);
+        mileageLine.frame = CGRectMake(CGRectGetMaxX(takemileage.frame)+10, 8, 0.5, 14) ;
+        
+        startmileageLabel.frame = CGRectMake(CGRectGetMaxX(takemileageLine.frame)+12, 0, ScreenWidth - CGRectGetMaxX(startLine.frame), 30) ;
+        mileageBottomLine.frame = CGRectMake(takemileage.frame.origin.x- 5, 30, ScreenWidth - startOil.frame.origin.x - 20, 0.5) ;
+        
+        
+    }
     
     //下车
     
@@ -338,8 +359,7 @@
         [mileageBackView addSubview:endmileageLabel];
     
     
-    
-    UILabel * endmileageBottomLine = [[UILabel alloc]initWithFrame:CGRectMake(startmileage.frame.origin.x- 5,3* 30, ScreenWidth - startOil.frame.origin.x - 20, 0.5)];
+    UILabel * endmileageBottomLine = [[UILabel alloc]initWithFrame:CGRectMake(startmileage.frame.origin.x- 5,CGRectGetMaxY(endmileage.frame), ScreenWidth - startOil.frame.origin.x - 20, 0.5)];
     endmileageBottomLine.backgroundColor = [UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1];
     [mileageBackView addSubview:endmileageBottomLine];
 
@@ -347,8 +367,7 @@
     
     
     
-    
-    UILabel * returnmileage = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(OilLabel.frame)+20, CGRectGetMaxY(endmileageBottomLine.frame), Foursize.width, 30)];
+    UILabel * returnmileage = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(OilLabel.frame)+20, CGRectGetMaxY(endmileage.frame), Foursize.width, 30)];
     [returnmileage setAttrubutwithText:@"还车里程" withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
     [mileageBackView addSubview:returnmileage];
     
@@ -358,12 +377,14 @@
     [mileageBackView addSubview:returnmileageLine];
     
     
-    UILabel * returnmileageLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(startLine.frame)+12, CGRectGetMaxY(endmileageBottomLine.frame), ScreenWidth - CGRectGetMaxX(startLine.frame), 30)];
+    UILabel * returnmileageLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(startLine.frame)+12, returnmileage.frame.origin.y, ScreenWidth - CGRectGetMaxX(startLine.frame), 30)];
     [mileageBackView addSubview:returnmileageLabel];
 
     
     
-    
+    if([self.dataModel.orderType isEqualToString:@"4"]){
+        [returnmileage setAttrubutwithText:@"行驶里程" withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+    }
     
     
 
@@ -431,6 +452,7 @@
 //        [_endAddress setAttrubutwithText:[self.model objectForKey:@"returnCarAddress"] withFont:10 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:2];
 
     }
+    
     //接送机
     else if([self.dataModel.taskType isEqualToString:@"3"] || [self.dataModel.taskType isEqualToString:@"4"]){
 
@@ -451,6 +473,7 @@
         
         [endoilLabel setAttrubutwithText:[self.model objectForKey:@"clientDownFuel"] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         
+       
         if ([self.dataModel.orderType isEqualToString:@"3"]) {
             
              [takeOilLabel setAttrubutwithText:[self.model objectForKey:@"driverTakeCarFuel"] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
@@ -458,20 +481,39 @@
             [takemileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"takeCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         }
         else{
-             [takeOilLabel setAttrubutwithText:[self.model objectForKey:@"takeCarFuel"] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
-            [takemileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"takeCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+            
+            if (![[self.model objectForKey:@"takeCarFuel"]isKindOfClass:[NSNull class]]) {
+                 [takeOilLabel setAttrubutwithText:[NSString stringWithFormat:@"%@",[self.model objectForKey:@"takeCarFuel"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+            }
+            
+//            [takemileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[NSString stringWithFormat:@"%@",[self.model objectForKey:@"takeCarMileage"]]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         }
         
         if (![[self.model objectForKey:@"returnCarFuel"]isKindOfClass:[NSNull class]]) {
-            [returnoilLabel setAttrubutwithText:[self.model objectForKey:@"returnCarFuel"] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+            [returnoilLabel setAttrubutwithText:[NSString stringWithFormat:@"%@",[self.model objectForKey:@"returnCarFuel"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         }
         
         [startmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"clientUpMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         
         [endmileageLabel setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"clientDownMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
         
-                [returnmileageLabel  setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"returnCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+        
+        
+        NSInteger mileage = [[self.model objectForKey:@"clientDownMileage"]integerValue] - [[self.model objectForKey:@"clientUpMileage"]integerValue] ;
+        
+        
+        if ([self.dataModel.orderType isEqualToString:@"4"]) {
+            [returnmileageLabel  setAttrubutwithText:[NSString stringWithFormat:@"%ld 公里",mileage] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+        }
+        else{
+            [returnmileageLabel  setAttrubutwithText:[NSString stringWithFormat:@"%@ 公里",[self.model objectForKey:@"returnCarMileage"]] withFont:11 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
+        }
+        
 
+        
+  //地址
+        
+        
         if ([[NSString stringWithFormat:@"%@",[self.model objectForKey:@"tripType"]]isEqualToString:@"1"]) {
             [_startAddress setAttrubutwithText:[[self.model objectForKey:@"transferPointShow"]objectForKey:@"pointName"] withFont:10 withBackColor:nil withTextColor:[UIColor colorWithRed:0.34 green:0.34 blue:0.35 alpha:1] withTextAlignment:0];
             

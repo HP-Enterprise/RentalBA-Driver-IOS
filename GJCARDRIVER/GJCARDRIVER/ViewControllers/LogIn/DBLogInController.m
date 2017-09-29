@@ -39,7 +39,6 @@
 -(void)basicSet{
     
     self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.97 blue:0.97 alpha:1];
-
     [self setUI];
     [self setSignInInfo];
     [self setFogetPw];
@@ -47,17 +46,11 @@
 
 
 -(void)setUI{
-    
     self.logInView.frame = self.view.frame ;
-    
-    
 }
 
-
 -(DBLogInView*)logInView{
-    
     if (!_logInView) {
-        
         _logInView = [[DBLogInView alloc]init];
         _logInView.userNameField.field.delegate = self ;
         _logInView.passWordField.field.delegate =self ;
@@ -67,6 +60,35 @@
     
     return _logInView ;
 }
+/*
+ 
+ address = "<null>";
+ birthday = "<null>";
+ cityId = 73;
+ cityName = "<null>";
+ createDate = 1503991500000;
+ createUser = admin;
+ drivingLicenseLevel = 1;
+ drivingLicenseNumber = 420821198907164321;
+ dutyFormShows = "<null>";
+ gender = 1;
+ id = 48;
+ idCard = 420821198907164321;
+ isEnable = 1;
+ latitude = "30.481157";
+ longitude = "114.409403";
+ modificationTime = "<null>";
+ modifyPerson = "<null>";
+ monthList = "<null>";
+ name = "\U97e9\U79cb\U5a49";
+ password = 193dba515a44b83106c5cda4018e00d2;
+ phone = 18871156486;
+ storeAddress = "<null>";
+ storeId = 55;
+ storeName = "<null>";
+ yearMonth = "<null>";
+ */
+
 
 -(void)setSignInInfo{
     
@@ -76,8 +98,7 @@
 
     __weak typeof(self)weak_self =self;
     
-    _logInView.signInBlock = ^(id dic)
-    {
+    _logInView.signInBlock = ^(id dic){
 
         [weak_self.tipView removeFromSuperview];
         if ([dic isKindOfClass:[NSError class]]) {
@@ -98,7 +119,7 @@
                 
                 [weak_self tipShow:@"登录成功"];
                 [user setObject:[[dic objectForKey:@"message"]objectForKey:@"id"] forKey:@"userId"];
-                
+                [user setObject:[[dic objectForKey:@"message"]objectForKey:@"cityId"] forKey:@"cityId"];
                 
                 [[DBUserInfoManager sharedManager]signInWithPassword:[dic objectForKey:@"message"]];
                 
@@ -159,7 +180,6 @@
 }
 - (void)tipShow:(NSString *)str
 {
-    
     self.tipView = [[DBTipView alloc]initWithHeight:0.8 * ScreenHeight WithMessage:str];
     [self.view addSubview:self.tipView];
 }

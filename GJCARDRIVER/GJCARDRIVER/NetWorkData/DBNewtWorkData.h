@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 
 #import "DBWaitWorkModel.h"
+
+
+#import "DBCarModel.h"
+
 //接受订单
 typedef void(^acceptOrderBlcok)(id message);
 
@@ -58,10 +62,24 @@ typedef void (^endRecordBlcok)(id message);
 + (void)orderIdGet:(NSString *)url parameters:(DBWaitWorkModel *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
 //加载可分配车辆
 + (void)loadAllCarsWithparameters:(DBWaitWorkModel *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
+
+//加载全部车型
++ (void)loadAllVehicleWithparameters:(DBWaitWorkModel *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
+//加载可分配车辆
++ (void)loadCarsWithparameters:(DBCarModel *)parameter withModel:(DBWaitWorkModel*)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
+
 //分配车辆
 + (void)allocateCarUrl:(NSString*)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
 //还车
 + (void)returnCarUrl:(NSString*)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
+//查询司机是否有未还车辆
++ (void)loadDriverCarGetsuccess:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
+#pragma mark -- 司机自行提还车
+//还车
++ (void)driverReturnCarUrl:(NSString*)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure ;
+//模糊查询车牌号
++ (void)loadCarPlateGet:(NSString*)str success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
+
 //加载订单详情
 + (void)orderInfoGet:(NSString *)url parameters:(DBWaitWorkModel *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
 
@@ -69,4 +87,12 @@ typedef void (^endRecordBlcok)(id message);
 + (void)loadDriverInfoGet:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure ;
 //获取版本号
 + (void)GetVersion:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
+//加载路单信息
++ (void)loadRoadOrderGet:(NSString *)url parameters:(DBWaitWorkModel *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
+//新增路单信息
++ (void)addRoadOrderGet:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
+//编辑路单
++(void)editRoadOrderPUT:(NSString *)url parameters:(NSDictionary *)parameters with:(NSString *)orderId success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
+//删除路单
++(void)deleteRoadOrder:(NSString*)url orderId:(NSString*)orderId success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
 @end

@@ -12,18 +12,13 @@
 @interface DBDoorBackRecord ()<UITextFieldDelegate>
 
 
-
-
 @property (nonatomic,strong)NSDate * startDate;
 @property (nonatomic,strong)UIButton * startBt ;
 @property (nonatomic,strong)UIButton * oilBt;
-
 @property (nonatomic,strong)DBTextField * endTime;
 @property (nonatomic,strong)DBTextField * endOil;
 @property (nonatomic,strong)DBTextField * endMileage;
-
 @property (nonatomic,strong)NSMutableDictionary * infoDic ;
-
 @property (nonatomic,strong)UIView * tipView ;
 @property (nonatomic,strong)DBDatePickerView   *  pickView ;
 @property (nonatomic,strong)DBPickerView * oilPickerView ;

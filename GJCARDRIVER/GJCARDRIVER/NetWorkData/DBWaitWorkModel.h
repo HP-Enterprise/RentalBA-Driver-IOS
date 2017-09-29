@@ -48,7 +48,7 @@
 @property (nonatomic,strong)NSString <Optional> * orderCode ;
 @property (nonatomic,strong)NSString <Optional> * orderId ;
 @property (nonatomic,strong)NSString <Optional> * orderShow ;
-@property (nonatomic,strong)NSString <Optional> * orderType ;
+@property (nonatomic,strong)NSString <Optional> * orderType ;    //1=短租自驾；2=门到门服务；3=短租代驾; 4=接送机
 @property (nonatomic,strong)NSString <Optional> * orderTypeName ;
 @property (nonatomic,strong)NSString <Optional> * plate ;
 @property (nonatomic,strong)NSString <Optional> * realEndTime ;

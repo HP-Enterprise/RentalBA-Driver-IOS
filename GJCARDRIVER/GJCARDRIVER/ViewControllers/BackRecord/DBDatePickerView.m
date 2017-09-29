@@ -10,8 +10,6 @@
 #import "DBDatePickerView.h"
 
 
-
-
 @implementation DBDatePickerView
 
 /*
@@ -26,11 +24,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-       
         [self setDatePicker];
-        
         [self setBt];
-        
         self.backgroundColor = [UIColor whiteColor];
         
     }

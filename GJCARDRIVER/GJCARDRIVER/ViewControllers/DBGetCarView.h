@@ -21,4 +21,5 @@ typedef void(^chooseClick)(NSDictionary * model);
 
 -(instancetype)initWithFrame:(CGRect)frame withDic:(NSArray*)dic ;
 
+-(void)reloadData:(NSArray*)array ;
 @end

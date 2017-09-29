@@ -148,7 +148,6 @@
         return ;
     }
     
-    
     NSLog(@"定位收集 %@",locations);
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
 
@@ -160,7 +159,6 @@
 
     [self performSelector:@selector(restartLocation) withObject:nil afterDelay:20];
     
-
 DBLog(@"17定位了  ");
     CLLocation  * cllocation = [locations firstObject];
 DBLog(@"18定位了  ");
@@ -236,6 +234,10 @@ DBLog(@"18定位了  ");
                 NSString * newadress = [FormattedAddressLines stringByReplacingOccurrencesOfString:@"中国" withString:@""];
                 dic = [NSDictionary dictionaryWithObjects:@[city,newadress] forKeys:@[@"city",@"address"]];
             }
+            else{
+                dic = [NSDictionary dictionaryWithObjects:@[city,[NSString stringWithFormat:@"%@%@%@%@",state,city,subLocality,Street]] forKeys:@[@"city",@"address"]];
+            }
+            
             NSString * subThoroughfare = pmark.subThoroughfare ;
             [user setObject:dic forKey:@"userAddr"];
             DBLog(@"崩之后%@",pmark.subThoroughfare);

@@ -9,8 +9,6 @@
 #import "DBNewtWorkData.h"
 
 
-
-
 // /api/dispatch/task-list
 #import <CommonCrypto/CommonDigest.h>
 @implementation DBNewtWorkData
@@ -314,7 +312,6 @@
 
 
 //发送坐标
-
 // get 方法调用
 + (void)sendlocationWithUrl:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure {
     
@@ -333,28 +330,18 @@
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success) {
-            
 
-            
             if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
-                
-                
-                
+        
                 NSLog(@"%@  %@",[responseObject objectForKey:@"message"],parameters);
             }
-            
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if(failure) {
-            
-
             failure(error);
         }
     }];
 }
-
-
-
 
 //提交上车回执单
 
@@ -370,20 +357,14 @@
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
     
     url  = [NSString stringWithFormat:@"%@/api/dispatch/task-doing?getOnMileage=%@&getOnFuel=%@&",HOST,[parameters objectForKey:@"getOnMileage"],[parameters objectForKey:@"getOnFuel"]];
-    
-    
     if ([[parameters allKeys]containsObject:@"onAddress"]) {
         
-
         url  = [NSString stringWithFormat:@"%@/api/dispatch/task-doing?getOnMileage=%@&getOnFuel=%@&onAddress=%@",HOST,[parameters objectForKey:@"getOnMileage"],[parameters objectForKey:@"getOnFuel"],[parameters objectForKey:@"onAddress"]];
         url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
-        
+    
 //        url  = [NSString stringWithFormat:@"%@/api/dispatch/task-doing?getOnMileage=%@&getOnFuel=%@&onAddress=%@",HOST,[parameters objectForKey:@"getOnMileage"],[parameters objectForKey:@"getOnFuel"],@"12345678"];
 
     }
-    
-    
     NSMutableDictionary * waitDic = [NSMutableDictionary dictionary];
     waitDic[@"id"]= [parameters objectForKey:@"id"] ;
     waitDic[@"driverId"]= [user objectForKey:@"userId"] ;
@@ -407,8 +388,6 @@
         self.startRecordBlcok(@"加载失败");
         NSLog(@"%@",error);
     }];
-    
-    
 }
 
 
@@ -429,7 +408,7 @@
 
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
 
-    url  = [NSString stringWithFormat:@"%@/api/dispatch/task-finish?getOffMileage=%@&getOffFuel=%@",HOST,[parameters objectForKey:@"getOffMileage"],[parameters objectForKey:@"getOffFuel"]];
+    url  = [NSString stringWithFormat:@"%@/api/dispatch/task-finish?getOffMileage=%@&getOffFuel=%@&returnCar=%@",HOST,[parameters objectForKey:@"getOffMileage"],[parameters objectForKey:@"getOffFuel"],[parameters objectForKey:@"returnCar"]];
     
     NSMutableDictionary * waitDic = [NSMutableDictionary dictionary];
     waitDic[@"id"]= [parameters objectForKey:@"id"] ;
@@ -439,7 +418,6 @@
     waitDic[@"recipientName"] = [parameters objectForKey:@"recipientName"];
     waitDic[@"clientActualDebusAddress"] = [parameters objectForKey:@"clientActualDebusAddress"];
 
-
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -448,7 +426,6 @@
     [manager PUT:url parameters:waitDic success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSLog(@"%@",responseObject);
-    
         self.endRecordBlcok(responseObject);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -497,11 +474,14 @@
 //加载可分配车辆
 + (void)loadAllCarsWithparameters:(DBWaitWorkModel *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure{
 
-    NSString *  url = [NSString stringWithFormat:@"%@/api/vendor/1/pool/1/vehicle?business=3&currentPage=1&modelId=%@&pageSize=10&states=ready,rented&storeType=2",HOST,parameters.modelId];
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+
+    
+    NSString *  url = [NSString stringWithFormat:@"%@/api/vendor/1/pool/1/vehicle?business=3&currentPage=1&modelId=%@&pageSize=100&states=ready,rented&storeType=2&cid=%@",HOST,parameters.modelId,[user objectForKey:@"cityId"]];
     
     if ([parameters.orderType isEqualToString:@"3"]) {
         
-        url = [NSString stringWithFormat:@"%@/api/vendor/1/pool/1/vehicle?business=2&currentPage=1&modelId=%@&pageSize=10&states=ready,rented&storeType=2",HOST,parameters.modelId];
+        url = [NSString stringWithFormat:@"%@/api/vendor/1/pool/1/vehicle?business=2&currentPage=1&modelId=%@&pageSize=100&states=ready,rented&storeType=2&cid=%@",HOST,parameters.modelId,[user objectForKey:@"cityId"]];
     }
     
 //    NSString *  url = [NSString stringWithFormat:@"%@/api/vehicle/brand/series/model?brand=&currentPage=1&fuzzy=1&model=&pageSize=5&series=",HOST];
@@ -526,10 +506,87 @@
     }];
 }
 
+//加载可分配车辆
++ (void)loadCarsWithparameters:(DBCarModel *)carModel withModel:(DBWaitWorkModel*)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure{
+    
+    
+    NSString * state ;
+    if ([carModel.state isEqualToString:@"全部"]) {
+        state = @"ready,rented";
+    }
+    else if ([carModel.state isEqualToString:@"待租赁"]){
+        state = @"ready";
+    }
+    else{
+        state = @"rented";
+    }
+    
+    
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    
+    NSString *  url = [NSString stringWithFormat:@"%@/api/vendor/1/pool/1/vehicle?business=3&currentPage=1&modelId=%@&pageSize=100&states=%@&storeType=2&cid=%@",HOST,parameters.modelId,state,[user objectForKey:@"cityId"]];
+    
+    if ([parameters.orderType isEqualToString:@"3"]) {
+        
+        url = [NSString stringWithFormat:@"%@/api/vendor/1/pool/1/vehicle?business=2&currentPage=1&modelId=%@&pageSize=100&states=%@&storeType=2&cid=%@",HOST,parameters.modelId,state,[user objectForKey:@"cityId"]];
+    }
+    
+    //    NSString *  url = [NSString stringWithFormat:@"%@/api/vehicle/brand/series/model?brand=&currentPage=1&fuzzy=1&model=&pageSize=5&series=",HOST];
+    //    http://182.61.22.80/api/vendor/1/pool/1/vehicle?business=3&currentPage=1&modelId=121&pageSize=10&state=ready&storeType=2
+    //    http://182.61.22.80/api/airportTrip/1017262/order
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    
+    
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
+    manager.requestSerializer.timeoutInterval = 10 ;
+    
+    
+    [manager GET:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+        
+    }];
+}
 
+//加载全部车型
 
++ (void)loadAllVehicleWithparameters:(DBWaitWorkModel *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure{
+//    http://182.61.22.80/api/vehicle/brand/series/model?currentPage=1&fuzzy=1&pageSize=200
+  
+    
+    NSString *  url = [NSString stringWithFormat:@"%@/api/vehicle/brand/series/model?currentPage=1&fuzzy=1&pageSize=-1",HOST];
 
-
+    //    NSString *  url = [NSString stringWithFormat:@"%@/api/vehicle/brand/series/model?brand=&currentPage=1&fuzzy=1&model=&pageSize=5&series=",HOST];
+    //    http://182.61.22.80/api/vendor/1/pool/1/vehicle?business=3&currentPage=1&modelId=121&pageSize=10&state=ready&storeType=2
+    //    http://182.61.22.80/api/airportTrip/1017262/order
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
+    [manager GET:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+        
+    }];
+}
 
 //加载订单详情
 + (void)orderInfoGet:(NSString *)url parameters:(DBWaitWorkModel *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure{
@@ -544,7 +601,6 @@
         url = [NSString stringWithFormat:@"%@/api/door/%@/order",HOST,parameters.orderCode];
     }
 
-    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -587,10 +643,6 @@
         
     }];
 }
-
-
-
-
 
 //分配车辆
 + (void)allocateCarUrl:(NSString*)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure{
@@ -673,8 +725,111 @@
     }];
 }
 
+#pragma mark -- 司机自行提还车
 
+//还车
++ (void)driverReturnCarUrl:(NSString*)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure{
+    /*
+    "driverPhone": "18900000000",
+    "vehiclePlate": "鄂A",
+    "type": 1,
+    "vehicleOil": "1/16",
+    "vehicleMileage": 1000,
+    "orderId":"1000032"
+   */
+    
+    url  = [NSString stringWithFormat:@"%@/api/driverVehicle",HOST];
 
+    NSMutableDictionary * waitDic = [NSMutableDictionary dictionary];
+    waitDic[@"driverPhone"] = [parameters objectForKey:@"driverPhone"];
+    waitDic[@"vehiclePlate"]= [parameters objectForKey:@"vehiclePlate"];
+    waitDic[@"type"]= [parameters objectForKey:@"type"];
+    waitDic[@"vehicleOil"]= [parameters objectForKey:@"vehicleOil"];
+    waitDic[@"vehicleMileage"]= [parameters objectForKey:@"vehicleMileage"];
+    
+    if ([[parameters allKeys] containsObject:@"orderId"]) {
+        waitDic[@"orderId"]= [parameters objectForKey:@"orderId"];;
+    }
+    
+    /*
+    waitDic[@"driverPhone"]= [parameters objectForKey:@"realStartTime"];
+    waitDic[@"vehiclePlate"]= [parameters objectForKey:@"realStartTime"];
+    waitDic[@"type"]= [parameters objectForKey:@"realStartTime"];
+    waitDic[@"vehicleOil"]= [parameters objectForKey:@"realStartTime"];
+    waitDic[@"vehicleMileage"]= [parameters objectForKey:@"realStartTime"];
+    waitDic[@"orderId"]= [parameters objectForKey:@"realStartTime"];
+    */
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
+    
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    [manager.requestSerializer setValue:[user objectForKey:@"driver_token"] forHTTPHeaderField:@"cookie"];
+    //[manager.requestSerializer setValue:@"token_staff=40519D59E2A4294D531F17D3AE564B65" forHTTPHeaderField:@"cookie"];
+   // token_staff=40519D59E2A4294D531F17D3AE564B65
+    //token_staff=1C9C461FDFB0C1578765BF6C923FFF9E
+    [manager POST:url parameters:waitDic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            success(responseObject) ;
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error) ;
+        }
+    }];
+}
+//查询司机是否有未还车辆
++ (void)loadDriverCarGetsuccess:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure {
+   
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSString * url = [NSString stringWithFormat:@"%@/api/driverVehicle/%@",HOST,[user objectForKey:@"userId"]];
+
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+   // [manager.requestSerializer setValue:@"token_staff=40519D59E2A4294D531F17D3AE564B65" forHTTPHeaderField:@"cookie"];
+    [manager.requestSerializer setValue:[user objectForKey:@"driver_token"] forHTTPHeaderField:@"cookie"];
+
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
+    [manager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+        
+    }];
+}
+
+//模糊查询车牌号
++ (void)loadCarPlateGet:(NSString*)str success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure {
+    
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    NSString * url = [NSString stringWithFormat:@"%@/api/vendor/1/pool/1/vehicle?plate=%@&cid=%@&states=rented,ready",HOST,str,[user objectForKey:@"cityId"]];
+    NSString* encodedString = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
+    [manager GET:encodedString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+        
+    }];
+}
 
 + (void)GetVersion:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure
 {
@@ -772,7 +927,104 @@
 //     } failure:^(NSError *error) {
 //         
 //     }];
-    
 }
+
+//加载路单信息
++ (void)loadRoadOrderGet:(NSString *)url parameters:(DBWaitWorkModel *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure{
+     url= [NSString stringWithFormat:@"%@/api/travelling/expenses/list?contractCode=%@",HOST,parameters.orderCode];
+    
+//    url = [NSString stringWithFormat:@"http://10.0.12.226:41234/api/travelling/expenses/list"];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
+    [manager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+//新增路单信息
++ (void)addRoadOrderGet:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure{
+    
+    url= [NSString stringWithFormat:@"%@/api/travelling/expenses/list",HOST];
+
+    //    url = [NSString stringWithFormat:@"http://10.0.12.226:41234/api/travelling/expenses/list"];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
+    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+
+//编辑路单
++(void)editRoadOrderPUT:(NSString *)url parameters:(NSDictionary *)parameters with:(NSString *)orderId success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure{
+
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+  
+    url= [NSString stringWithFormat:@"%@/api/travelling/expenses/list/%@",HOST,orderId];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
+  
+    [manager PUT:url parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+        NSLog(@"%@",responseObject);
+
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+//删除路单
++(void)deleteRoadOrder:(NSString*)url orderId:(NSString*)orderId success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure{
+
+    url= [NSString stringWithFormat:@"%@/api/travelling/expenses/list/%@",HOST,orderId];
+ 
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
+    [manager DELETE:url parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+
+}
+
+
 
 @end

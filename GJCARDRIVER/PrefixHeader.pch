@@ -20,8 +20,10 @@
 #endif
 
 //#define HOST @""
-//#define HOST @"http://www.gjcar.com"
-#define HOST @"http://182.61.22.80"
+#define HOST @"http://www.gjcar.com"
+//#define HOST @"http://182.61.22.80"
+//#define HOST @"http://10.0.12.171:41234"
+
 //获取屏幕宽度
 #define ScreenWidth  [UIScreen mainScreen].bounds.size.width
 
@@ -60,4 +62,18 @@
 #import "DBTextField.h"
 #import "DBTipView.h"
 #import "DBPickerView.h"
+
 #endif /* PrefixHeader_pch */
+
+
+
+
+// 门到门合同  orderState  1：下单待调度 2:已调度 3:司机取车(门店) 4:客户已取车 5:客户已还车 6:还车待调度 7:司机取车(客户) 8:司机还车 9:取消订单 10:订单完成 )
+
+
+
+// 司机任务    orderType  订单类型，1=短租自驾；2=门到门服务；3=短租代驾; 4=接送机
+//            taskType  任务类型，1=送车，2=取车,3=接送机
+
+
+

@@ -60,10 +60,20 @@
 		0B7E6F481DE57F2400C27378 /* progress7.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B7E6F401DE57F2400C27378 /* progress7.png */; };
 		0B7E6F491DE57F2400C27378 /* progress8.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B7E6F411DE57F2400C27378 /* progress8.png */; };
 		0B7E6F4B1DE585CE00C27378 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B7E6F4A1DE585CE00C27378 /* Default-568h@2x.png */; };
+		0B8880211F53F76000C66A5A /* DBAddInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B88801F1F53F76000C66A5A /* DBAddInfoViewController.m */; };
+		0B8880221F53F76000C66A5A /* DBAddInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B8880201F53F76000C66A5A /* DBAddInfoViewController.xib */; };
+		0B8880291F5544D700C66A5A /* DBRoadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8880271F5544D700C66A5A /* DBRoadTableViewCell.m */; };
+		0B88802A1F5544D700C66A5A /* DBRoadTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B8880281F5544D700C66A5A /* DBRoadTableViewCell.xib */; };
+		0B88802D1F55545600C66A5A /* DBRoadOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B88802C1F55545600C66A5A /* DBRoadOrderViewController.m */; };
 		0B9115A41DD5C97D0031FB42 /* jpush-ios-2.2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B9115A21DD5C97D0031FB42 /* jpush-ios-2.2.0.a */; };
+		0B98E0E21F2591530079A9CB /* DBDriverReturnCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B98E0E11F2591530079A9CB /* DBDriverReturnCarViewController.m */; };
+		0B9D3E2A1F204A4000CBB641 /* 向下@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B9D3E291F204A4000CBB641 /* 向下@3x.png */; };
+		0B9D3E2D1F20560400CBB641 /* DBCarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9D3E2C1F20560400CBB641 /* DBCarModel.m */; };
 		0BA4F2221DED24E3005FDA35 /* DBNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA4F2211DED24E3005FDA35 /* DBNetManager.m */; };
 		0BB84F4D1EB346AE009561CA /* 车@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BB84F4C1EB346AE009561CA /* 车@2x.png */; };
 		0BD65D011EE5312800EB7A46 /* userImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BD65D001EE5312800EB7A46 /* userImage.png */; };
+		0BE2BA891F0F2977001445F0 /* DBReturnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE2BA881F0F2977001445F0 /* DBReturnViewController.m */; };
+		0BE2BA9A1F1F6001001445F0 /* DBDatePickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE2BA991F1F6001001445F0 /* DBDatePickViewController.m */; };
 		0BF91E871DD5C73500BF01E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF91E861DD5C73500BF01E0 /* main.m */; };
 		0BF91E8A1DD5C73500BF01E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF91E891DD5C73500BF01E0 /* AppDelegate.m */; };
 		0BF91E8D1DD5C73500BF01E0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF91E8C1DD5C73500BF01E0 /* ViewController.m */; };
@@ -201,12 +211,29 @@
 		0B7E6F401DE57F2400C27378 /* progress7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = progress7.png; sourceTree = "<group>"; };
 		0B7E6F411DE57F2400C27378 /* progress8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = progress8.png; sourceTree = "<group>"; };
 		0B7E6F4A1DE585CE00C27378 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		0B88801E1F53F76000C66A5A /* DBAddInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBAddInfoViewController.h; sourceTree = "<group>"; };
+		0B88801F1F53F76000C66A5A /* DBAddInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBAddInfoViewController.m; sourceTree = "<group>"; };
+		0B8880201F53F76000C66A5A /* DBAddInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DBAddInfoViewController.xib; sourceTree = "<group>"; };
+		0B8880261F5544D700C66A5A /* DBRoadTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBRoadTableViewCell.h; sourceTree = "<group>"; };
+		0B8880271F5544D700C66A5A /* DBRoadTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBRoadTableViewCell.m; sourceTree = "<group>"; };
+		0B8880281F5544D700C66A5A /* DBRoadTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DBRoadTableViewCell.xib; sourceTree = "<group>"; };
+		0B88802B1F55545600C66A5A /* DBRoadOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBRoadOrderViewController.h; path = ../OrderDetail/DBRoadOrderViewController.h; sourceTree = "<group>"; };
+		0B88802C1F55545600C66A5A /* DBRoadOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBRoadOrderViewController.m; path = ../OrderDetail/DBRoadOrderViewController.m; sourceTree = "<group>"; };
 		0B9115A21DD5C97D0031FB42 /* jpush-ios-2.2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-2.2.0.a"; sourceTree = "<group>"; };
 		0B9115A31DD5C97D0031FB42 /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
+		0B98E0E01F2591530079A9CB /* DBDriverReturnCarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBDriverReturnCarViewController.h; sourceTree = "<group>"; };
+		0B98E0E11F2591530079A9CB /* DBDriverReturnCarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBDriverReturnCarViewController.m; sourceTree = "<group>"; };
+		0B9D3E291F204A4000CBB641 /* 向下@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "向下@3x.png"; sourceTree = "<group>"; };
+		0B9D3E2B1F20560400CBB641 /* DBCarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBCarModel.h; sourceTree = "<group>"; };
+		0B9D3E2C1F20560400CBB641 /* DBCarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBCarModel.m; sourceTree = "<group>"; };
 		0BA4F2201DED24E3005FDA35 /* DBNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBNetManager.h; sourceTree = "<group>"; };
 		0BA4F2211DED24E3005FDA35 /* DBNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBNetManager.m; sourceTree = "<group>"; };
 		0BB84F4C1EB346AE009561CA /* 车@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "车@2x.png"; sourceTree = "<group>"; };
 		0BD65D001EE5312800EB7A46 /* userImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = userImage.png; sourceTree = "<group>"; };
+		0BE2BA871F0F2977001445F0 /* DBReturnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBReturnViewController.h; sourceTree = "<group>"; };
+		0BE2BA881F0F2977001445F0 /* DBReturnViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBReturnViewController.m; sourceTree = "<group>"; };
+		0BE2BA981F1F6001001445F0 /* DBDatePickViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBDatePickViewController.h; sourceTree = "<group>"; };
+		0BE2BA991F1F6001001445F0 /* DBDatePickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBDatePickViewController.m; sourceTree = "<group>"; };
 		0BF91E821DD5C73500BF01E0 /* GJCARDRIVER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GJCARDRIVER.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF91E861DD5C73500BF01E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0BF91E881DD5C73500BF01E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -277,12 +304,17 @@
 		0B1EE5181EA0B795002F077C /* DBGetCar */ = {
 			isa = PBXGroup;
 			children = (
+				0B9D3E291F204A4000CBB641 /* 向下@3x.png */,
+				0BE2BA981F1F6001001445F0 /* DBDatePickViewController.h */,
+				0BE2BA991F1F6001001445F0 /* DBDatePickViewController.m */,
 				0B1EE5191EA0B7B2002F077C /* DBGetCarViewController.h */,
 				0B1EE51A1EA0B7B2002F077C /* DBGetCarViewController.m */,
 				0B1EE51C1EA0B7CC002F077C /* DBGetCarView.h */,
 				0B1EE51D1EA0B7CC002F077C /* DBGetCarView.m */,
 				0B1EE51F1EA0BBE9002F077C /* DBCarListCell.h */,
 				0B1EE5201EA0BBE9002F077C /* DBCarListCell.m */,
+				0B9D3E2B1F20560400CBB641 /* DBCarModel.h */,
+				0B9D3E2C1F20560400CBB641 /* DBCarModel.m */,
 			);
 			name = DBGetCar;
 			sourceTree = "<group>";
@@ -318,6 +350,8 @@
 		0B5402D61EF2647F00CBE825 /* returnCar */ = {
 			isa = PBXGroup;
 			children = (
+				0BE2BA871F0F2977001445F0 /* DBReturnViewController.h */,
+				0BE2BA881F0F2977001445F0 /* DBReturnViewController.m */,
 			);
 			name = returnCar;
 			sourceTree = "<group>";
@@ -355,6 +389,8 @@
 				0B6D2AAD1EA78B41002AF5BA /* DBSelfView.m */,
 				0B6D2AB01EA78B41002AF5BA /* DBUserInfoView.h */,
 				0B6D2AB11EA78B41002AF5BA /* DBUserInfoView.m */,
+				0B98E0E01F2591530079A9CB /* DBDriverReturnCarViewController.h */,
+				0B98E0E11F2591530079A9CB /* DBDriverReturnCarViewController.m */,
 			);
 			name = UserInfo;
 			sourceTree = "<group>";
@@ -475,6 +511,14 @@
 				0B7E6F121DDAAE5100C27378 /* DBRefuseView.h */,
 				0B7E6F131DDAAE5100C27378 /* DBRefuseView.m */,
 				0B7E6EEF1DD5CBA000C27378 /* OrderDetail */,
+				0B88801E1F53F76000C66A5A /* DBAddInfoViewController.h */,
+				0B88801F1F53F76000C66A5A /* DBAddInfoViewController.m */,
+				0B8880201F53F76000C66A5A /* DBAddInfoViewController.xib */,
+				0B88802B1F55545600C66A5A /* DBRoadOrderViewController.h */,
+				0B88802C1F55545600C66A5A /* DBRoadOrderViewController.m */,
+				0B8880261F5544D700C66A5A /* DBRoadTableViewCell.h */,
+				0B8880271F5544D700C66A5A /* DBRoadTableViewCell.m */,
+				0B8880281F5544D700C66A5A /* DBRoadTableViewCell.xib */,
 			);
 			path = OrderList;
 			sourceTree = "<group>";
@@ -683,6 +727,7 @@
 					0BF91E811DD5C73500BF01E0 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = Q92BWVW48L;
+						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -732,9 +777,12 @@
 			files = (
 				0B7E6F481DE57F2400C27378 /* progress7.png in Resources */,
 				0B7E6F431DE57F2400C27378 /* progress2.png in Resources */,
+				0B8880221F53F76000C66A5A /* DBAddInfoViewController.xib in Resources */,
 				0BF91E951DD5C73500BF01E0 /* LaunchScreen.storyboard in Resources */,
+				0B9D3E2A1F204A4000CBB641 /* 向下@3x.png in Resources */,
 				0B7E6F461DE57F2400C27378 /* progress5.png in Resources */,
 				0B7E6F491DE57F2400C27378 /* progress8.png in Resources */,
+				0B88802A1F5544D700C66A5A /* DBRoadTableViewCell.xib in Resources */,
 				0B7E6F4B1DE585CE00C27378 /* Default-568h@2x.png in Resources */,
 				0B612D601EA848D700AF7123 /* x-man.jpg in Resources */,
 				0B683E511DD5CA62009E6EE9 /* Assets.xcassets in Resources */,
@@ -824,12 +872,16 @@
 				0B7E6F081DD94C7C00C27378 /* DBOrderListCell.m in Sources */,
 				0B7E6ECD1DD5CB7B00C27378 /* DBTextField.m in Sources */,
 				0B7E6F291DDEAE6900C27378 /* DBChooseDateViewController.m in Sources */,
+				0B98E0E21F2591530079A9CB /* DBDriverReturnCarViewController.m in Sources */,
 				0B7E6F1C1DDC4D9A00C27378 /* DBJPUSHData.m in Sources */,
 				0B7E6EF31DD5CBA000C27378 /* DBLogInView.m in Sources */,
 				0BA4F2221DED24E3005FDA35 /* DBNetManager.m in Sources */,
 				0B1EE51E1EA0B7CC002F077C /* DBGetCarView.m in Sources */,
+				0B8880211F53F76000C66A5A /* DBAddInfoViewController.m in Sources */,
+				0BE2BA891F0F2977001445F0 /* DBReturnViewController.m in Sources */,
 				0B1EE5211EA0BBE9002F077C /* DBCarListCell.m in Sources */,
 				0B7E6F091DD94C7C00C27378 /* DBOrderListData.m in Sources */,
+				0B88802D1F55545600C66A5A /* DBRoadOrderViewController.m in Sources */,
 				0B7E6F351DE53CEB00C27378 /* DBPickerView.m in Sources */,
 				0BF91E8D1DD5C73500BF01E0 /* ViewController.m in Sources */,
 				0B7E6F141DDAAE5100C27378 /* DBRefuseView.m in Sources */,
@@ -847,9 +899,11 @@
 				0B5402E01EF27EA700CBE825 /* DBDoorOrderVIew.m in Sources */,
 				0B7E6F111DD959C300C27378 /* DBFinishOrderDetailView.m in Sources */,
 				0B683E4F1DD5CA62009E6EE9 /* BGTask.m in Sources */,
+				0BE2BA9A1F1F6001001445F0 /* DBDatePickViewController.m in Sources */,
 				0B7E6EF01DD5CBA000C27378 /* DBEndBackRecord.m in Sources */,
 				0B7E6F071DD94C7C00C27378 /* DBOrderController.m in Sources */,
 				0B7E6F191DDAF91B00C27378 /* DBTipView.m in Sources */,
+				0B8880291F5544D700C66A5A /* DBRoadTableViewCell.m in Sources */,
 				0B5402D91EF264DF00CBE825 /* DBGetViewController.m in Sources */,
 				0B7E6F321DE2C80000C27378 /* DBResetViewController.m in Sources */,
 				0B1EE5271EA36D16002F077C /* DBReturnCarViewController.m in Sources */,
@@ -860,6 +914,7 @@
 				0BF91E8A1DD5C73500BF01E0 /* AppDelegate.m in Sources */,
 				0BF91E871DD5C73500BF01E0 /* main.m in Sources */,
 				0B7E6EF21DD5CBA000C27378 /* DBLogInData.m in Sources */,
+				0B9D3E2D1F20560400CBB641 /* DBCarModel.m in Sources */,
 				0B7E6ED71DD5CB8900C27378 /* DBWaitWorkModel.m in Sources */,
 				0B7E6F2F1DDEDAE300C27378 /* DBDatePickerView.m in Sources */,
 				0B7E6F0E1DD9598000C27378 /* DBFinishOrderDetailController.m in Sources */,
@@ -1014,6 +1069,7 @@
 			baseConfigurationReference = E418F8209B5599EDF4506137 /* Pods-GJCARDRIVER.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = GJCARDRIVER/GJCARDRIVER.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Brilliance Auto Rental Co.,Ltd";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1032,6 +1088,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "GJCARDRIVER/ViewControllers/GJCARDRIVER-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1040,6 +1099,7 @@
 			baseConfigurationReference = DE39B5434F316E9D660BFB50 /* Pods-GJCARDRIVER.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = GJCARDRIVER/GJCARDRIVER.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Brilliance Auto Rental Co.,Ltd";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1058,6 +1118,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "GJCARDRIVER/ViewControllers/GJCARDRIVER-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
