@@ -86,11 +86,8 @@
         _workingTable.separatorStyle = UITableViewCellSeparatorStyleNone ;
         __weak typeof(self)weak_self =self ;
         _workingTable.mj_header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-            
             [[NSNotificationCenter defaultCenter]postNotificationName:@"reloadOrder" object:nil];
-            
             [weak_self.workingTable.mj_header endRefreshing];
-
         }];
         
         // 设置自动切换透明度(在导航栏下面自动隐藏)
@@ -196,15 +193,15 @@
             if ([model.dispatchStatus isEqualToString:@"35"]) {
                 
 //
-                cell.refuseBt.hidden = YES;
-//                cell.refuseBt.hidden = NO;
+              //  cell.refuseBt.hidden = YES;
+                cell.refuseBt.hidden = NO;
                 cell.acceptBt.hidden = NO ;
             }
             
             else if ([model.dispatchStatus isEqualToString:@"30"])
             {
-                cell.refuseBt.hidden = YES;
-//                cell.refuseBt.hidden = NO;
+                //cell.refuseBt.hidden = YES;
+                cell.refuseBt.hidden = NO;
                 cell.acceptBt.hidden = NO ;
 //                cell.acceptBt.frame = cell.refuseBt.frame ;
             }
@@ -243,10 +240,10 @@
         
         [self loadOrder:self.finishWorkData[indexPath.row] with:cell.acceptBt] ;
 
-//        cell.refuseBt.tag = 500 + indexPath.row;
-//        cell.refuseBt.backgroundColor = BascColor;
-//        [cell.refuseBt addTarget:self action:@selector(acceptBtClick:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.acceptBt.hidden = YES;
+        cell.refuseBt.tag = 500 + indexPath.row;
+        cell.refuseBt.backgroundColor = BascColor;
+        [cell.refuseBt addTarget:self action:@selector(acceptBtClick:) forControlEvents:UIControlEventTouchUpInside];
+        cell.acceptBt.hidden = YES;
     }
     [self loadOrderWithCell:self.finishWorkData[indexPath.row] with:cell];
 
@@ -416,8 +413,6 @@
                 
             }];
         }
-
-
     } failure:^(NSError *error) {
         
     }];

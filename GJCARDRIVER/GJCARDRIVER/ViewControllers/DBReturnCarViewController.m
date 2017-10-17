@@ -56,8 +56,11 @@
             self.orderInfoDic = [NSDictionary dictionaryWithDictionary:[responseObject objectForKey:@"message"]];
             [self setUI];
         }
+        else{
+            [self tipShow:@"没有相关数据"];
+        }
         NSLog(@"%@",responseObject);
-        [self tipShow:@"没有相关数据"];
+        
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
         [self tipShow:@"连接失败"];
@@ -154,7 +157,6 @@
 
     }
 
-    
     [_startTime.field removeFromSuperview];
     _startBt.frame = _startTime.field.frame ;
 

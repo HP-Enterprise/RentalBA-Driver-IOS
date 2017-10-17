@@ -31,7 +31,7 @@
             [self setWorkingBottomBt];
         }
         else if ([reuseIdentifier isEqualToString:@"finishWorkCell"]){
-//            [self setFinishBottomBt];
+            [self setFinishBottomBt];
         }
     }
     return self;
@@ -367,7 +367,8 @@
     self.model = model ;
     
     
-    
+    /*
+     
     _mileageLabel.frame = CGRectMake(ScreenWidth /2 , CGRectGetMaxY(headView.frame), ScreenWidth/2 - 15, 30);
     
     CGFloat  width  = ScreenWidth/ 3;
@@ -375,14 +376,16 @@
      carLine.frame = CGRectMake( CGRectGetMaxX(_startAddress.frame), _startAddress.frame.origin.y + 20, width - 30, 0.5);
     _endAddress.frame =CGRectMake(CGRectGetMaxX(carLine.frame)+5, _startAddress.frame.origin.y, width , 40);
     _carName.frame = CGRectMake(CGRectGetMaxX(_startAddress.frame) , _startAddress.frame.origin.y - 5, width - 30  , 25);
-//
+  
+  
 
+    _acceptBt = [UIButton buttonWithType:UIButtonTypeCustom];
+    _acceptBt.frame = CGRectMake(ScreenWidth -60 , _orderNumber.frame.origin.y + 17, 45, 30);
 
-//    _acceptBt = [UIButton buttonWithType:UIButtonTypeCustom];
-//    _acceptBt.frame = CGRectMake(ScreenWidth -60 , _orderNumber.frame.origin.y + 17, 45, 30);
-//
-//    [_acceptBt setAttrubutwithTitle:@"" TitleColor:[UIColor whiteColor] BackColor:[UIColor colorWithRed:0.45 green:0.78 blue:0.11 alpha:1] Font:12 CornerRadius:3 BorderWidth:0 BorderColor:nil];
-//    [self addSubview:_acceptBt];
+    [_acceptBt setAttrubutwithTitle:@"" TitleColor:[UIColor whiteColor] BackColor:[UIColor colorWithRed:0.45 green:0.78 blue:0.11 alpha:1] Font:12 CornerRadius:3 BorderWidth:0 BorderColor:nil];
+    [self addSubview:_acceptBt];
+     
+        */
 
 }
 
